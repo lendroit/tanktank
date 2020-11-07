@@ -43,6 +43,9 @@ func _input(event):
 	
 	if event.is_action_pressed("ui_down"):
 		move(Direction.DOWN)
+		
+	if event.is_action_pressed("ui_accept"):
+		grid.shoot(self, Vector2.ZERO)
 
 # TODO add types
 func move(direction):

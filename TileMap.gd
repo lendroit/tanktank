@@ -56,6 +56,19 @@ func move_if_possible(tank, direction: Vector2):
 		
 		return true
 	return false
+	
+func shoot(tank, direction: Vector2):
+	var pos = world_to_map(tank.position)
+	var step = 1
+	while pos.x + step < WIDTH:
+		var target_position = Vector2(pos.x + step, pos.y)
+		if object_positions[pos.y][pos.x + step] != null:
+			impact_object(target_position)
+			return
+		step+=1
+
+func impact_object(position: Vector2):
+	print(position)
 
 func can_move(initial_position: Vector2, next_position: Vector2):
 	if next_position.x < 0 || next_position.y <0:
