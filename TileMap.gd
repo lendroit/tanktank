@@ -4,6 +4,7 @@ class_name Grid
 const HEIGHT = 5
 const WIDTH = 8
 
+# TODO add setters for this
 var object_positions = []
 
 const INITIAL_POSITION = Vector2(2, 2)
@@ -11,19 +12,17 @@ const INITIAL_POSITION = Vector2(2, 2)
 var Tank = preload("res://Tank/Tank.tscn")
 
 func _ready():
-	object_positions = make_grid()
-	register_children_objects()	
+	make_object_positions_grid()
+	register_children_objects()
 	place_tank(INITIAL_POSITION)
-	print(object_positions)
 	
 func register_children_objects():
 	var children = self.get_children()
-	print(children)
 	for child in children: 
 		var child_map_position = self.world_to_map(child.position)
 		register_object(child_map_position, child)
 
-func make_grid():
+func make_object_positions_grid():
 	var array = []
 	for y in HEIGHT:
 		var line = []
@@ -31,7 +30,7 @@ func make_grid():
 			line.append(null)
 		array.append(line)
 	
-	return array
+	object_positions = array
 
 func place_tank(initial_position: Vector2):
 	var new_tank = Tank.instance()
@@ -48,11 +47,12 @@ func register_object(position: Vector2, object):
 func move_if_possible(tank, direction: Vector2):
 	var pos = world_to_map(tank.position)
 	var next_pos = Vector2(pos.x + direction.x, pos.y + direction.y)
+	
 	if can_move(pos, next_pos):
 		object_positions[pos.y][pos.x] = null
 		object_positions[pos.y + direction.y][pos.x + direction.x] = tank
-		
 		return true
+
 	return false
 	
 func shoot(tank, direction: Vector2):
