@@ -6,13 +6,14 @@ const WIDTH = 8
 
 var object_positions = []
 
+const INITIAL_POSITION = Vector2(2, 2)
 
 var Tank = preload("res://Tank/Tank.tscn")
 
 func _ready():
 	object_positions = make_grid()
 	register_children_objects()	
-	place_tank(1, 1)
+	place_tank(INITIAL_POSITION)
 	print(object_positions)
 	
 func register_children_objects():
@@ -20,7 +21,7 @@ func register_children_objects():
 	print(children)
 	for child in children: 
 		var child_map_position = self.world_to_map(child.position)
-		register_object(child_map_position.x, child_map_position.y, child.type)
+		register_object(child_map_position, child.type)
 
 func make_grid():
 	var array = []
@@ -34,17 +35,17 @@ func make_grid():
 
 
 
-func place_tank(x,y):
+func place_tank(initial_position: Vector2):
 	var new_tank = Tank.instance()
 	
-	var world_position = self.map_to_world(Vector2(x, y))
+	var world_position = self.map_to_world(initial_position)
 	new_tank.position = world_position
 
-	register_object(x,y,"TANK")
+	register_object(initial_position, "TANK")
 	self.add_child(new_tank)
 	
-func register_object(x,y,object):
-	object_positions[y][x] = object
+func register_object(position: Vector2, object):
+	object_positions[position.y][position.x] = object
 
 func move_if_possible(tank, direction: Vector2):
 	var pos = world_to_map(tank.position)

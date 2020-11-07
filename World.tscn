@@ -33,7 +33,7 @@ tile_data = PoolIntArray( -65530, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0
 script = ExtResource( 2 )
 
 [node name="Barrel" parent="TileMap" instance=ExtResource( 1 )]
-position = Vector2( 384, 384 )
+position = Vector2( 256, 128 )
 
 [node name="Barrel2" parent="TileMap" instance=ExtResource( 1 )]
-position = Vector2( 256, 256 )
+position = Vector2( 256, 0 )
