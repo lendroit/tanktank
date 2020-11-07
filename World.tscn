@@ -36,4 +36,4 @@ script = ExtResource( 2 )
 position = Vector2( 256, 128 )
 
 [node name="Barrel2" parent="TileMap" instance=ExtResource( 1 )]
-position = Vector2( 256, 0 )
+position = Vector2( 384, 128 )
