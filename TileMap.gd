@@ -21,7 +21,7 @@ func register_children_objects():
 	print(children)
 	for child in children: 
 		var child_map_position = self.world_to_map(child.position)
-		register_object(child_map_position, child.type)
+		register_object(child_map_position, child)
 
 func make_grid():
 	var array = []
@@ -33,15 +33,13 @@ func make_grid():
 	
 	return array
 
-
-
 func place_tank(initial_position: Vector2):
 	var new_tank = Tank.instance()
 	
 	var world_position = self.map_to_world(initial_position)
 	new_tank.position = world_position
 
-	register_object(initial_position, "TANK")
+	register_object(initial_position, new_tank)
 	self.add_child(new_tank)
 	
 func register_object(position: Vector2, object):
@@ -52,7 +50,7 @@ func move_if_possible(tank, direction: Vector2):
 	var next_pos = Vector2(pos.x + direction.x, pos.y + direction.y)
 	if can_move(pos, next_pos):
 		object_positions[pos.y][pos.x] = null
-		object_positions[pos.y + direction.y][pos.x + direction.x] = "TANK"
+		object_positions[pos.y + direction.y][pos.x + direction.x] = tank
 		
 		return true
 	return false
@@ -68,7 +66,9 @@ func shoot(tank, direction: Vector2):
 		step+=1
 
 func impact_object(position: Vector2):
-	print(position)
+	var object = object_positions[position.y][position.x]
+	object.queue_free()
+	object_positions[position.y][position.x] = null
 
 func can_move(initial_position: Vector2, next_position: Vector2):
 	if next_position.x < 0 || next_position.y <0:
