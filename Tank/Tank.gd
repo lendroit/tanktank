@@ -1,7 +1,9 @@
 extends Node2D
 
+const type = "TANK"
+
 # TODO get this value from a config somewhere
-const GRID_SIZE = 100
+const GRID_SIZE = 128
 
 var grid
 
