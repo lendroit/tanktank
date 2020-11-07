@@ -1,11 +1,13 @@
 extends Node2D
 
+# TODO get this value from a config somewhere
 const GRID_SIZE = 100
 
 var grid
 
 class_name Tank
 
+# TODO take this out
 enum Direction {
     RIGHT,
     LEFT,
@@ -13,6 +15,7 @@ enum Direction {
     DOWN
 }
 
+# TODO take this out
 var movementVectors = {
     Direction.RIGHT: Vector2.RIGHT,
     Direction.LEFT: Vector2.LEFT,
@@ -39,6 +42,7 @@ func _input(event):
 	if event.is_action_pressed("ui_down"):
 		move(Direction.DOWN)
 
+# TODO add types
 func move(direction):
 	var should_move = grid.move_if_possible(self, movementVectors[direction])
 	
