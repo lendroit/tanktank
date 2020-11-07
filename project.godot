@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "TileMap",
 "class": "Grid",
 "language": "GDScript",
-"path": "res://TileMap.gd"
+"path": "res://Grid.gd"
 }, {
 "base": "Node2D",
 "class": "Tank",
