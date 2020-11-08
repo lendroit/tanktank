@@ -37,3 +37,8 @@ position = Vector2( 256, 128 )
 
 [node name="Barrel2" parent="Grid" instance=ExtResource( 1 )]
 position = Vector2( 384, 128 )
+
+[node name="ActionExecutionTimer" type="Timer" parent="Grid"]
+wait_time = 0.3
+one_shot = true
+[connection signal="timeout" from="Grid/ActionExecutionTimer" to="Grid" method="_on_ActionExecutionTimer_timeout"]

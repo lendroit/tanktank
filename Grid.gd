@@ -3,24 +3,45 @@ class_name Grid
 
 const HEIGHT = 5
 const WIDTH = 8
+onready var timer = $ActionExecutionTimer
 
 # TODO add setters for this
 var object_positions = []
+var number_of_remaining_actions_to_execute_this_turn = 0
 
-const INITIAL_POSITION = Vector2(2, 2)
+const INITIAL_POSITION_PLAYER_1 = Vector2(3, 3)
+const INITIAL_POSITION_PLAYER_2 = Vector2(0, 0)
 
-var Tank = preload("res://Tank/Tank.tscn")
+var TankClass = preload("res://Tank/Tank.tscn")
+
+var player_1_ready = false
+var player_2_ready = false
 
 func _ready():
 	make_object_positions_grid()
 	register_children_objects()
-	place_tank(INITIAL_POSITION)
+#	TODO create a enum for player names
+	place_tank(INITIAL_POSITION_PLAYER_1, "PLAYER_1")
+	place_tank(INITIAL_POSITION_PLAYER_2, "PLAYER_2")
 	
 func register_children_objects():
 	var children = self.get_children()
-	for child in children: 
-		var child_map_position = self.world_to_map(child.position)
-		register_object(child_map_position, child)
+
+	for child in children:
+		if child is Node2D:
+			var child_map_position = self.world_to_map(child.position)
+			register_object(child_map_position, child)
+
+func _input(event):
+
+	if event.is_action_pressed("end_turn_p1"):
+		player_1_ready = true
+		if player_1_ready && player_2_ready:
+			execute_actions()
+	if event.is_action_pressed("end_turn_p2"):
+		player_2_ready = true
+		if player_1_ready && player_2_ready:
+			execute_actions()
 
 func make_object_positions_grid():
 	var array = []
@@ -32,8 +53,9 @@ func make_object_positions_grid():
 	
 	object_positions = array
 
-func place_tank(initial_position: Vector2):
-	var new_tank = Tank.instance()
+func place_tank(initial_position: Vector2, tank_name: String):
+	var new_tank = TankClass.instance()
+	new_tank.tank_name = tank_name
 	
 	var world_position = self.map_to_world(initial_position)
 	new_tank.position = world_position
@@ -81,3 +103,20 @@ func can_move(next_position: Vector2):
 		return false
 		
 	return true
+
+func execute_actions():
+	number_of_remaining_actions_to_execute_this_turn = 5
+	player_1_ready = false
+	player_2_ready = false
+	timer.start()
+
+
+func _on_ActionExecutionTimer_timeout():
+	number_of_remaining_actions_to_execute_this_turn -= 1
+	for row_object in object_positions:
+		for object in row_object:
+			if(object is Tank):
+				object.execute_next_action()
+
+	if number_of_remaining_actions_to_execute_this_turn > 0:
+		timer.start()
