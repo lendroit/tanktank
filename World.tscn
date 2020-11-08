@@ -43,7 +43,7 @@ position = Vector2( 256, 128 )
 position = Vector2( 384, 128 )
 
 [node name="ActionExecutionTimer" type="Timer" parent="Grid"]
-wait_time = 0.3
+wait_time = 0.5
 one_shot = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

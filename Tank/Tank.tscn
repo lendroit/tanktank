@@ -16,7 +16,9 @@ position = Vector2( 0, -24 )
 texture = ExtResource( 2 )
 
 [node name="Tween" type="Tween" parent="."]
-[connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
 
 [node name="Laser" parent="." instance=ExtResource( 4 )]
 position = Vector2( 0.260712, -49.5828 )
+
+[node name="Script" type="Node2D" parent="."]
+[connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]

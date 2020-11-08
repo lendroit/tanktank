@@ -12,7 +12,8 @@ var number_of_remaining_actions_to_execute_this_turn = 0
 const INITIAL_POSITION_PLAYER_1 = Vector2(3, 3)
 const INITIAL_POSITION_PLAYER_2 = Vector2(0, 0)
 
-var TankClass = preload("res://Tank/Tank.tscn")
+var Tank1 = preload("res://Tank/Tank1.tscn")
+var Tank2 = preload("res://Tank/Tank2.tscn")
 
 var player_1_ready = false
 var player_2_ready = false
@@ -54,7 +55,11 @@ func make_object_positions_grid():
 	object_positions = array
 
 func place_tank(initial_position: Vector2, tank_name: String):
-	var new_tank = TankClass.instance()
+	var new_tank
+	if tank_name == "PLAYER_1":
+		new_tank = Tank1.instance()
+	if tank_name == "PLAYER_2":
+		new_tank = Tank2.instance()
 	new_tank.tank_name = tank_name
 	
 	var world_position = self.map_to_world(initial_position)
