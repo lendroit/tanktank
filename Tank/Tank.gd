@@ -25,6 +25,7 @@ func _input(event):
 	if is_executing_actions:
 		return
 
+#TODO Create Tank1 and Tank2 that implements the _input actions
 	if self.tank_name == "PLAYER_1":
 		if event.is_action_pressed("rotate_right_p1"):
 			actions_queue.append(Actions.ROTATE_RIGHT)

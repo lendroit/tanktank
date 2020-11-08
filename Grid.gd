@@ -20,6 +20,7 @@ var player_2_ready = false
 func _ready():
 	make_object_positions_grid()
 	register_children_objects()
+#	TODO create a enum for player names
 	place_tank(INITIAL_POSITION_PLAYER_1, "PLAYER_1")
 	place_tank(INITIAL_POSITION_PLAYER_2, "PLAYER_2")
 	
