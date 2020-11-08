@@ -104,4 +104,3 @@ func execute_next_action():
 			rotate_right()
 		Actions.SHOOT:
 			shoot()
-

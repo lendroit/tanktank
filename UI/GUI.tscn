@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI/ActionIndicatorContainer.tscn" type="PackedScene" id=1]
+[ext_resource path="res://UI/GUI.gd" type="Script" id=2]
+
+[node name="GUI" type="MarginContainer"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 96.0
+margin_top = -65.0
+margin_right = -94.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="HBoxContainer" parent="."]
+margin_right = 834.0
+margin_bottom = 36.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P1ActionIndicator" parent="Container" instance=ExtResource( 1 )]
+margin_left = 0.0
+margin_right = 634.0
+size_flags_horizontal = 3
+
+[node name="P2ActionIndicator" parent="Container" instance=ExtResource( 1 )]
