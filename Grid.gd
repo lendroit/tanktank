@@ -10,7 +10,7 @@ var object_positions = []
 const INITIAL_POSITION_PLAYER_1 = Vector2(0, 0)
 const INITIAL_POSITION_PLAYER_2 = Vector2(3, 3)
 
-var Tank = preload("res://Tank/Tank.tscn")
+var TankClass = preload("res://Tank/Tank.tscn")
 
 func _ready():
 	make_object_positions_grid()
@@ -39,7 +39,7 @@ func make_object_positions_grid():
 	object_positions = array
 
 func place_tank(initial_position: Vector2, tank_name: String):
-	var new_tank = Tank.instance()
+	var new_tank = TankClass.instance()
 	new_tank.tank_name = tank_name
 	
 	var world_position = self.map_to_world(initial_position)
