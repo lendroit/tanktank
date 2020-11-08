@@ -1,8 +1,8 @@
 extends Line2D
 
 onready var tween = $Tween
-var is_inverted = false
 
+const GRID_SIZE = 128
 const WIDTH = 10
 
 func _ready():
@@ -14,7 +14,7 @@ func shoot(length):
 	var draw_length = length if length != null else 100
 
 	self.add_point(Vector2(0, 0))
-	self.add_point(Vector2(0, (draw_length - 0.5) * -128))
+	self.add_point(Vector2(0, (draw_length - 0.5) * -GRID_SIZE))
 	tween.interpolate_property(
 		self,
 		"width",
