@@ -9,7 +9,7 @@ onready var timer = $ActionExecutionTimer
 var object_positions = []
 var number_of_remaining_actions_to_execute_this_turn = 0
 
-const INITIAL_POSITION_PLAYER_1 = Vector2(3, 3)
+const INITIAL_POSITION_PLAYER_1 = Vector2(0, 3)
 const INITIAL_POSITION_PLAYER_2 = Vector2(0, 0)
 
 var TankClass = preload("res://Tank/Tank.tscn")
@@ -82,14 +82,18 @@ func move_if_possible(tank, direction: Vector2):
 func shoot(tank, direction: Vector2):
 	var pos = world_to_map(tank.position)
 	var step = 1
-	while 0 < pos.x + step*direction.x && pos.x + step*direction.x < WIDTH && 0 < pos.y + step*direction.y && pos.y + step*direction.y < HEIGHT:
-		var target_position = pos + step*direction
+	var target_position = pos + step*direction
+	while target_position_is_in_grid(target_position):
 		if object_positions[target_position.y][target_position.x] != null:
 			impact_object(target_position)
 			return step
 		step+=1
+		target_position = pos + step*direction
 	
 	return step
+
+func target_position_is_in_grid(position: Vector2):
+	return 0 <= position.x && position.x < WIDTH && 0 <= position.y && position.y < HEIGHT
 
 func impact_object(position: Vector2):
 	var object = object_positions[position.y][position.x]
