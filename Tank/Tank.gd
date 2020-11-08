@@ -7,6 +7,7 @@ const GRID_SIZE = 128
 onready var grid = get_parent()
 onready var tween = $Tween
 var is_moving = false
+var is_rotating = false
 var direction = Direction.ENUM.UP
 
 func _input(event):
@@ -59,12 +60,30 @@ func rotate_left():
 	var new_direction = fmod(direction + 3, 4)
 	print(new_direction)
 	direction = Direction.DIRECTIONS_ORDER[new_direction]
-	self.rotate(-PI/2)
+	self.rotate_animate(-PI/2)
 
 func rotate_right():
 	var new_direction = fmod(direction + 1, 4)
 	direction = Direction.DIRECTIONS_ORDER[new_direction]
-	self.rotate(PI/2)
+	self.rotate_animate(PI/2)
+
+func rotate_animate(new_rotation):
+	if is_rotating:
+		return
+
+	is_rotating = true
+	tween.interpolate_property(
+		self,
+		"rotation",
+		self.rotation,
+		self.rotation + new_rotation,
+		0.2,
+		Tween.TRANS_LINEAR,
+		Tween.EASE_IN_OUT
+	)
+	tween.start()
+
 
 func _on_Tween_tween_completed(object, key):
 	is_moving = false
+	is_rotating = false
