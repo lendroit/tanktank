@@ -1,5 +1,7 @@
 extends Node2D
 
+signal add_action
+
 onready var parent = get_parent()
 
 func _input(event):
@@ -7,16 +9,20 @@ func _input(event):
 		return
 
 	if event.is_action_pressed("rotate_right_p2"):
-		parent.actions_queue.append(parent.Actions.ROTATE_RIGHT)
+		add_action(parent.Actions.ROTATE_RIGHT)
 
 	if event.is_action_pressed("rotate_left_p2"):
-		parent.actions_queue.append(parent.Actions.ROTATE_LEFT)
+		add_action(parent.Actions.ROTATE_LEFT)
 
 	if event.is_action_pressed("move_frontward_p2"):
-		parent.actions_queue.append(parent.Actions.MOVE_FRONTWARD)
+		add_action(parent.Actions.MOVE_FRONTWARD)
 
 	if event.is_action_pressed("move_backward_p2"):
-		parent.actions_queue.append(parent.Actions.MOVE_BACKWARD)
+		add_action(parent.Actions.MOVE_BACKWARD)
 
 	if event.is_action_pressed("shoot_p2"):
-		parent.actions_queue.append(parent.Actions.SHOOT)
+		add_action(parent.Actions.SHOOT)
+
+func add_action(action):
+	parent.actions_queue.append(action)
+	emit_signal("add_action")

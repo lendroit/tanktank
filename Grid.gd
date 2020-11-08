@@ -1,6 +1,8 @@
 extends TileMap
 class_name Grid
 
+signal execute_actions
+
 const HEIGHT = 5
 const WIDTH = 8
 onready var timer = $ActionExecutionTimer
@@ -120,6 +122,7 @@ func execute_actions():
 	number_of_remaining_actions_to_execute_this_turn = 5
 	player_1_ready = false
 	player_2_ready = false
+	emit_signal("execute_actions")
 	timer.start()
 
 
