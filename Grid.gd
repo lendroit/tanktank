@@ -46,6 +46,7 @@ func register_object(position: Vector2, object):
 
 func move_if_possible(tank, direction: Vector2):
 	var pos = world_to_map(tank.position)
+
 	var next_pos = Vector2(pos.x + direction.x, pos.y + direction.y)
 	
 	if can_move(pos, next_pos):

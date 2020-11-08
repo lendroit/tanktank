@@ -10,40 +10,23 @@ class_name Tank
 onready var tween = $Tween
 var is_moving = false
 
-# TODO take this out
-enum Direction {
-    RIGHT,
-    LEFT,
-    UP,
-    DOWN
-}
-
-# TODO take this out
-var movementVectors = {
-    Direction.RIGHT: Vector2.RIGHT,
-    Direction.LEFT: Vector2.LEFT,
-    Direction.UP: Vector2.UP,
-    Direction.DOWN: Vector2.DOWN
-}
-
 func _ready():
 	grid = get_parent()
-
 
 func _input(event):
 	var current_position = self.position
 	
 	if event.is_action_pressed("ui_right"):
-		move(Direction.RIGHT)
+		move(Direction.ENUM.RIGHT)
 	
 	if event.is_action_pressed("ui_left"):
-		move(Direction.LEFT)
+		move(Direction.ENUM.LEFT)
 	
 	if event.is_action_pressed("ui_up"):
-		move(Direction.UP)
+		move(Direction.ENUM.UP)
 	
 	if event.is_action_pressed("ui_down"):
-		move(Direction.DOWN)
+		move(Direction.ENUM.DOWN)
 		
 	if event.is_action_pressed("ui_accept"):
 		grid.shoot(self, Vector2.ZERO)
@@ -53,7 +36,7 @@ func move(direction):
 	if is_moving:
 		return
 
-	var should_move = grid.move_if_possible(self, movementVectors[direction])
+	var should_move = grid.move_if_possible(self, Direction.VECTORS[direction])
 
 	if should_move:
 		is_moving = true
@@ -61,7 +44,7 @@ func move(direction):
 			self,
 			"position",
 			self.position,
-			self.position + movementVectors[direction] * GRID_SIZE,
+			self.position + Direction.VECTORS[direction] * GRID_SIZE,
 			0.2,
 			Tween.TRANS_LINEAR,
 			Tween.EASE_IN_OUT
