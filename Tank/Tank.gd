@@ -26,22 +26,22 @@ func _input(event):
 	if is_executing_actions:
 		return
 	
-	if event.is_action_pressed("rotate_right"):
+	if event.is_action_pressed("rotate_right_p1"):
 		actions_queue.append(Actions.ROTATE_RIGHT)
 	
-	if event.is_action_pressed("rotate_left"):
+	if event.is_action_pressed("rotate_left_p1"):
 		actions_queue.append(Actions.ROTATE_LEFT)
 	
-	if event.is_action_pressed("move_frontward"):
+	if event.is_action_pressed("move_frontward_p1"):
 		actions_queue.append(Actions.MOVE_FRONTWARD)
 	
-	if event.is_action_pressed("move_backward"):
+	if event.is_action_pressed("move_backward_p1"):
 		actions_queue.append(Actions.MOVE_BACKWARD)
 		
-	if event.is_action_pressed("shoot"):
+	if event.is_action_pressed("shoot_p1"):
 		actions_queue.append(Actions.SHOOT)
 		
-	if event.is_action_pressed("end_turn"):
+	if event.is_action_pressed("end_turn_p1"):
 		self.execute_actions()
 
 func move_frontward():
