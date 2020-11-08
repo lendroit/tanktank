@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Tank/Laser.gd" type="Script" id=1]
+[ext_resource path="res://Tank/circle_05.png" type="Texture" id=2]
+[ext_resource path="res://Tank/LaserBeamParticles.tres" type="Material" id=3]
+[ext_resource path="res://Tank/LaserParticles.tres" type="Material" id=4]
 
 [node name="Laser" type="Line2D"]
 modulate = Color( 1.1, 1.1, 1.1, 1 )
@@ -10,3 +13,18 @@ default_color = Color( 2.8, 0, 0.06, 1 )
 script = ExtResource( 1 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="CannonParticles" type="Particles2D" parent="."]
+emitting = false
+amount = 10
+lifetime = 0.3
+process_material = ExtResource( 4 )
+texture = ExtResource( 2 )
+
+[node name="BeamParticles" type="Particles2D" parent="."]
+emitting = false
+amount = 10
+lifetime = 0.3
+local_coords = false
+process_material = ExtResource( 3 )
+texture = ExtResource( 2 )

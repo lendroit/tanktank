@@ -89,7 +89,7 @@ func shoot(tank, direction: Vector2):
 			return step
 		step+=1
 	
-	return null
+	return step
 
 func impact_object(position: Vector2):
 	var object = object_positions[position.y][position.x]
