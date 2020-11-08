@@ -12,19 +12,19 @@ var direction = Direction.ENUM.UP
 func _input(event):
 	var current_position = self.position
 	
-	if event.is_action_pressed("ui_right"):
+	if event.is_action_pressed("rotate_right"):
 		rotate_right()
 	
-	if event.is_action_pressed("ui_left"):
+	if event.is_action_pressed("rotate_left"):
 		rotate_left()
 	
-	if event.is_action_pressed("ui_up"):
+	if event.is_action_pressed("move_frontward"):
 		move_frontward()
 	
-	if event.is_action_pressed("ui_down"):
+	if event.is_action_pressed("move_backward"):
 		move_backward()
 		
-	if event.is_action_pressed("ui_accept"):
+	if event.is_action_pressed("shoot"):
 		grid.shoot(self, Direction.VECTORS[direction])
 
 func move_frontward():
