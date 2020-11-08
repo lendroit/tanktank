@@ -120,8 +120,8 @@ func rotate_animate(new_rotation):
 	tween.start()
 
 func shoot():
-	grid.shoot(self, Direction.VECTORS[direction])
-	$Laser.shoot()
+	var laser_length = grid.shoot(self, Direction.VECTORS[direction])
+	$Laser.shoot(laser_length)
 
 func _on_Tween_tween_completed(_object, _key):
 	is_moving = false

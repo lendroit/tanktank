@@ -77,7 +77,8 @@ func move_if_possible(tank, direction: Vector2):
 		return true
 
 	return false
-	
+
+# TODO document this better: it returns the length of the shoot
 func shoot(tank, direction: Vector2):
 	var pos = world_to_map(tank.position)
 	var step = 1
@@ -85,8 +86,10 @@ func shoot(tank, direction: Vector2):
 		var target_position = pos + step*direction
 		if object_positions[target_position.y][target_position.x] != null:
 			impact_object(target_position)
-			return
+			return step
 		step+=1
+	
+	return null
 
 func impact_object(position: Vector2):
 	var object = object_positions[position.y][position.x]

@@ -6,13 +6,15 @@ var is_inverted = false
 const WIDTH = 10
 
 func _ready():
-	# Clear points here so that laser is visible in the editor
+	# Leave points in the editor then clear points here
+	# so that we may visualize the laser in the editor
 	self.clear_points()
 
-func shoot():
+func shoot(length):
+	var draw_length = length if length != null else 100
+
 	self.add_point(Vector2(0, 0))
-	# TODO make laser finite
-	self.add_point(Vector2(0, 10 * -128))
+	self.add_point(Vector2(0, (draw_length - 0.5) * -128))
 	tween.interpolate_property(
 		self,
 		"width",
