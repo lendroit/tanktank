@@ -8,6 +8,7 @@ const WIDTH = 8
 var object_positions = []
 
 const INITIAL_POSITION_PLAYER_1 = Vector2(0, 0)
+const INITIAL_POSITION_PLAYER_2 = Vector2(3, 3)
 
 var Tank = preload("res://Tank/Tank.tscn")
 
@@ -15,6 +16,7 @@ func _ready():
 	make_object_positions_grid()
 	register_children_objects()
 	place_tank(INITIAL_POSITION_PLAYER_1, "PLAYER_1")
+	place_tank(INITIAL_POSITION_PLAYER_2, "PLAYER_2")
 	
 func register_children_objects():
 	var children = self.get_children()
