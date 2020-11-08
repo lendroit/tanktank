@@ -1,17 +1,12 @@
 extends Node2D
+class_name Tank
 
 # TODO get this value from a config somewhere
 const GRID_SIZE = 128
 
-var grid
-
-class_name Tank
-
+onready var grid = get_parent()
 onready var tween = $Tween
 var is_moving = false
-
-func _ready():
-	grid = get_parent()
 
 func _input(event):
 	var current_position = self.position
