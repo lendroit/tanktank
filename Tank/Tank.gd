@@ -7,7 +7,6 @@ export (String) var tank_name
 
 onready var grid = get_parent()
 onready var tween = $Tween
-onready var timer = $Timer
 var is_moving = false
 var is_executing_actions = false
 var direction = Direction.ENUM.UP
@@ -42,8 +41,6 @@ func _input(event):
 		if event.is_action_pressed("shoot_p1"):
 			actions_queue.append(Actions.SHOOT)
 
-		if event.is_action_pressed("end_turn_p1"):
-			self.execute_actions()
 
 	if self.tank_name == "PLAYER_2":
 		if event.is_action_pressed("rotate_right_p2"):
@@ -61,8 +58,6 @@ func _input(event):
 		if event.is_action_pressed("shoot_p2"):
 			actions_queue.append(Actions.SHOOT)
 
-		if event.is_action_pressed("end_turn_p2"):
-			self.execute_actions()
 
 func move_frontward():
 	move(direction)
@@ -128,14 +123,11 @@ func shoot():
 func _on_Tween_tween_completed(_object, _key):
 	is_moving = false
 
-func execute_actions():
-	timer.start()
-
-func _on_Timer_timeout():
+func execute_next_action():
 	var action = actions_queue.pop_front()
 	if action == null:
 		return
-	
+
 	match action:
 		Actions.MOVE_BACKWARD:
 			move_backward()
@@ -148,4 +140,3 @@ func _on_Timer_timeout():
 		Actions.SHOOT:
 			shoot()
 
-	timer.start()
