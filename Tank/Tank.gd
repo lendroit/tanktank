@@ -7,24 +7,33 @@ const GRID_SIZE = 128
 onready var grid = get_parent()
 onready var tween = $Tween
 var is_moving = false
+var direction = Direction.ENUM.UP
 
 func _input(event):
 	var current_position = self.position
 	
 	if event.is_action_pressed("ui_right"):
-		move(Direction.ENUM.RIGHT)
+		rotate_right()
 	
 	if event.is_action_pressed("ui_left"):
-		move(Direction.ENUM.LEFT)
+		rotate_left()
 	
 	if event.is_action_pressed("ui_up"):
-		move(Direction.ENUM.UP)
+		move_frontward()
 	
 	if event.is_action_pressed("ui_down"):
-		move(Direction.ENUM.DOWN)
+		move_backward()
 		
 	if event.is_action_pressed("ui_accept"):
-		grid.shoot(self, Vector2.ZERO)
+		grid.shoot(self, Direction.VECTORS[direction])
+
+func move_frontward():
+	move(direction)
+
+func move_backward():
+	var opposite_direction = fmod(direction+2, 4)
+	move(opposite_direction)
+
 
 # TODO add types
 func move(direction):
@@ -46,6 +55,16 @@ func move(direction):
 		)
 		tween.start()
 
+func rotate_left():
+	var new_direction = fmod(direction + 3, 4)
+	print(new_direction)
+	direction = Direction.DIRECTIONS_ORDER[new_direction]
+	self.rotate(-PI/2)
+
+func rotate_right():
+	var new_direction = fmod(direction + 1, 4)
+	direction = Direction.DIRECTIONS_ORDER[new_direction]
+	self.rotate(PI/2)
 
 func _on_Tween_tween_completed(object, key):
 	is_moving = false
