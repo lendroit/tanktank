@@ -7,6 +7,9 @@ var grid
 
 class_name Tank
 
+onready var tween = $Tween
+var is_moving = false
+
 # TODO take this out
 enum Direction {
     RIGHT,
@@ -47,7 +50,24 @@ func _input(event):
 
 # TODO add types
 func move(direction):
+	if is_moving:
+		return
+
 	var should_move = grid.move_if_possible(self, movementVectors[direction])
-	
+
 	if should_move:
-		self.position = self.position + movementVectors[direction] * GRID_SIZE
+		is_moving = true
+		tween.interpolate_property(
+			self,
+			"position",
+			self.position,
+			self.position + movementVectors[direction] * GRID_SIZE,
+			0.2,
+			Tween.TRANS_LINEAR,
+			Tween.EASE_IN_OUT
+		)
+		tween.start()
+
+
+func _on_Tween_tween_completed(object, key):
+	is_moving = false
