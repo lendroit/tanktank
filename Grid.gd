@@ -7,7 +7,7 @@ onready var timer = $ActionExecutionTimer
 
 # TODO add setters for this
 var object_positions = []
-var number_of_remaining_turns = 0
+var number_of_remaining_actions_to_execute_this_turn = 0
 
 const INITIAL_POSITION_PLAYER_1 = Vector2(3, 3)
 const INITIAL_POSITION_PLAYER_2 = Vector2(0, 0)
@@ -104,18 +104,18 @@ func can_move(next_position: Vector2):
 	return true
 
 func execute_actions():
-	number_of_remaining_turns = 5
+	number_of_remaining_actions_to_execute_this_turn = 5
 	player_1_ready = false
 	player_2_ready = false
 	timer.start()
 
 
 func _on_ActionExecutionTimer_timeout():
-	number_of_remaining_turns -= 1
+	number_of_remaining_actions_to_execute_this_turn -= 1
 	for row_object in object_positions:
 		for object in row_object:
 			if(object is Tank):
 				object.execute_next_action()
 
-	if number_of_remaining_turns > 0:
+	if number_of_remaining_actions_to_execute_this_turn > 0:
 		timer.start()
