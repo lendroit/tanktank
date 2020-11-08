@@ -32,7 +32,7 @@ func move_frontward():
 	move(direction)
 
 func move_backward():
-	var opposite_direction = fmod(direction+2, 4)
+	var opposite_direction = Direction.DIRECTIONS_ORDER[fmod(direction+2, 4)]
 	move(opposite_direction)
 
 
