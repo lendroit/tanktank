@@ -7,8 +7,8 @@ const WIDTH = 8
 # TODO add setters for this
 var object_positions = []
 
-const INITIAL_POSITION_PLAYER_1 = Vector2(0, 0)
-const INITIAL_POSITION_PLAYER_2 = Vector2(3, 3)
+const INITIAL_POSITION_PLAYER_1 = Vector2(3, 3)
+const INITIAL_POSITION_PLAYER_2 = Vector2(0, 0)
 
 var TankClass = preload("res://Tank/Tank.tscn")
 
