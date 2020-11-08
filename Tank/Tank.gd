@@ -6,26 +6,49 @@ const GRID_SIZE = 128
 
 onready var grid = get_parent()
 onready var tween = $Tween
+onready var timer = $Timer
 var is_moving = false
+var is_executing_actions = false
 var direction = Direction.ENUM.UP
 
+enum Actions {
+	MOVE_FRONTWARD,
+	MOVE_BACKWARD,
+	ROTATE_RIGHT,
+	ROTATE_LEFT,
+	SHOOT
+}
+
+var actions_queue = []
+
 func _input(event):
+	if is_executing_actions:
+		return
+
 	var current_position = self.position
 	
 	if event.is_action_pressed("rotate_right"):
-		rotate_right()
+#		rotate_right()
+		actions_queue.append(Actions.ROTATE_RIGHT)
 	
 	if event.is_action_pressed("rotate_left"):
-		rotate_left()
+#		rotate_left()
+		actions_queue.append(Actions.ROTATE_LEFT)
 	
 	if event.is_action_pressed("move_frontward"):
-		move_frontward()
+#		move_frontward()
+		actions_queue.append(Actions.MOVE_FRONTWARD)
 	
 	if event.is_action_pressed("move_backward"):
-		move_backward()
+#		move_backward()
+		actions_queue.append(Actions.MOVE_BACKWARD)
 		
 	if event.is_action_pressed("shoot"):
-		grid.shoot(self, Direction.VECTORS[direction])
+#		grid.shoot(self, Direction.VECTORS[direction])
+		actions_queue.append(Actions.SHOOT)
+		
+	if event.is_action_pressed("end_turn"):
+		self.execute_actions()
 
 func move_frontward():
 	move(direction)
@@ -61,7 +84,6 @@ func rotate_left():
 	is_moving = true
 	
 	var new_direction = fmod(direction + 3, 4)
-	print(new_direction)
 	direction = Direction.DIRECTIONS_ORDER[new_direction]
 	self.rotate_animate(-PI/2)
 
@@ -86,6 +108,31 @@ func rotate_animate(new_rotation):
 	)
 	tween.start()
 
+func shoot():
+	grid.shoot(self, Direction.VECTORS[direction])
 
 func _on_Tween_tween_completed(object, key):
 	is_moving = false
+
+func execute_actions():
+	timer.start()
+
+func _on_Timer_timeout():
+	var action = actions_queue.pop_front()
+	if action == null:
+		return
+	
+	match action:
+		Actions.MOVE_BACKWARD:
+			move_backward()
+		Actions.MOVE_FRONTWARD:
+			move_frontward()
+		Actions.ROTATE_LEFT:
+			rotate_left()
+		Actions.ROTATE_RIGHT:
+			rotate_right()
+		Actions.SHOOT:
+			shoot()
+
+	timer.start()
+
