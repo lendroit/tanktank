@@ -7,6 +7,7 @@ export (String) var tank_name
 
 onready var grid = get_parent()
 onready var tween = $Tween
+onready var laser = $Laser
 var is_moving = false
 var is_executing_actions = false
 var direction = Direction.ENUM.UP
@@ -120,6 +121,7 @@ func rotate_animate(new_rotation):
 
 func shoot():
 	grid.shoot(self, Direction.VECTORS[direction])
+	$Laser.shoot()
 
 func _on_Tween_tween_completed(_object, _key):
 	is_moving = false

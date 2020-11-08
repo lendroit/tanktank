@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Tank/tankGreen.png" type="Texture" id=1]
 [ext_resource path="res://Tank/barrelGreen.png" type="Texture" id=2]
 [ext_resource path="res://Tank/Tank.gd" type="Script" id=3]
+[ext_resource path="res://Tank/Laser.tscn" type="PackedScene" id=4]
 
 [node name="Tank" type="Node2D"]
 script = ExtResource( 3 )
@@ -16,3 +17,6 @@ texture = ExtResource( 2 )
 
 [node name="Tween" type="Tween" parent="."]
 [connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
+
+[node name="Laser" parent="." instance=ExtResource( 4 )]
+position = Vector2( 0.260712, -49.5828 )
