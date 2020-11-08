@@ -49,7 +49,7 @@ func move_if_possible(tank, direction: Vector2):
 
 	var next_pos = Vector2(pos.x + direction.x, pos.y + direction.y)
 	
-	if can_move(pos, next_pos):
+	if can_move(next_pos):
 		object_positions[pos.y][pos.x] = null
 		object_positions[pos.y + direction.y][pos.x + direction.x] = tank
 		return true
@@ -71,7 +71,7 @@ func impact_object(position: Vector2):
 	object.queue_free()
 	object_positions[position.y][position.x] = null
 
-func can_move(initial_position: Vector2, next_position: Vector2):
+func can_move(next_position: Vector2):
 	if next_position.x < 0 || next_position.y <0:
 		return false
 	if next_position.x >= object_positions[0].size() || next_position.y >= object_positions.size():

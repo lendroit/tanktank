@@ -24,27 +24,20 @@ var actions_queue = []
 func _input(event):
 	if is_executing_actions:
 		return
-
-	var current_position = self.position
 	
 	if event.is_action_pressed("rotate_right"):
-#		rotate_right()
 		actions_queue.append(Actions.ROTATE_RIGHT)
 	
 	if event.is_action_pressed("rotate_left"):
-#		rotate_left()
 		actions_queue.append(Actions.ROTATE_LEFT)
 	
 	if event.is_action_pressed("move_frontward"):
-#		move_frontward()
 		actions_queue.append(Actions.MOVE_FRONTWARD)
 	
 	if event.is_action_pressed("move_backward"):
-#		move_backward()
 		actions_queue.append(Actions.MOVE_BACKWARD)
 		
 	if event.is_action_pressed("shoot"):
-#		grid.shoot(self, Direction.VECTORS[direction])
 		actions_queue.append(Actions.SHOOT)
 		
 	if event.is_action_pressed("end_turn"):
@@ -59,11 +52,11 @@ func move_backward():
 
 
 # TODO add types
-func move(direction):
+func move(move_direction):
 	if is_moving:
 		return
 
-	var should_move = grid.move_if_possible(self, Direction.VECTORS[direction])
+	var should_move = grid.move_if_possible(self, Direction.VECTORS[move_direction])
 
 	if should_move:
 		is_moving = true
@@ -71,7 +64,7 @@ func move(direction):
 			self,
 			"position",
 			self.position,
-			self.position + Direction.VECTORS[direction] * GRID_SIZE,
+			self.position + Direction.VECTORS[move_direction] * GRID_SIZE,
 			0.2,
 			Tween.TRANS_LINEAR,
 			Tween.EASE_IN_OUT
@@ -111,7 +104,7 @@ func rotate_animate(new_rotation):
 func shoot():
 	grid.shoot(self, Direction.VECTORS[direction])
 
-func _on_Tween_tween_completed(object, key):
+func _on_Tween_tween_completed(_object, _key):
 	is_moving = false
 
 func execute_actions():
@@ -135,4 +128,3 @@ func _on_Timer_timeout():
 			shoot()
 
 	timer.start()
-
