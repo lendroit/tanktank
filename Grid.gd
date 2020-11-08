@@ -7,14 +7,14 @@ const WIDTH = 8
 # TODO add setters for this
 var object_positions = []
 
-const INITIAL_POSITION = Vector2(2, 2)
+const INITIAL_POSITION_PLAYER_1 = Vector2(0, 0)
 
 var Tank = preload("res://Tank/Tank.tscn")
 
 func _ready():
 	make_object_positions_grid()
 	register_children_objects()
-	place_tank(INITIAL_POSITION)
+	place_tank(INITIAL_POSITION_PLAYER_1, "PLAYER_1")
 	
 func register_children_objects():
 	var children = self.get_children()
@@ -32,8 +32,9 @@ func make_object_positions_grid():
 	
 	object_positions = array
 
-func place_tank(initial_position: Vector2):
+func place_tank(initial_position: Vector2, tank_name: String):
 	var new_tank = Tank.instance()
+	new_tank.tank_name = tank_name
 	
 	var world_position = self.map_to_world(initial_position)
 	new_tank.position = world_position

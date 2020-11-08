@@ -3,6 +3,7 @@ class_name Tank
 
 # TODO get this value from a config somewhere
 const GRID_SIZE = 128
+export (String) var tank_name
 
 onready var grid = get_parent()
 onready var tween = $Tween
