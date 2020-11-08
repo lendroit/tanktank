@@ -20,9 +20,13 @@ func _ready():
 	
 func register_children_objects():
 	var children = self.get_children()
-	for child in children: 
-		var child_map_position = self.world_to_map(child.position)
-		register_object(child_map_position, child)
+
+	for child in children:
+		if child is Node2D:
+			var child_map_position = self.world_to_map(child.position)
+			register_object(child_map_position, child)
+
+
 
 func make_object_positions_grid():
 	var array = []
