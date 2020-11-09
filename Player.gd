@@ -25,6 +25,7 @@ func start_turn(new_action_list):
 
 func exeute_next_action():
 	var action = action_list.pop_front()
+	shoot(10)
 	if action:
 		move(action)
 
@@ -41,6 +42,8 @@ func move_tween(dir):
 		1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.start()
 
+func shoot(length):
+	$Laser.shoot(length)
 
 func _on_Tween_tween_all_completed():
 	exeute_next_action()
