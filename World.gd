@@ -24,7 +24,7 @@ func _input(event):
 		player_1_action.append("down")
 
 	if event.is_action_pressed("shoot_p1"):
-		pass
+		player_1_action.append("shoot")
 
 	if event.is_action_pressed("rotate_right_p2"):
 		player_2_action.append("right")
@@ -39,7 +39,7 @@ func _input(event):
 		player_2_action.append("down")
 
 	if event.is_action_pressed("shoot_p2"):
-		pass
+		player_2_action.append("shoot")
 
 	if event.is_action_pressed("end_turn_p1"):
 		player_1_ready = true

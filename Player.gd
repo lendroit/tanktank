@@ -25,9 +25,12 @@ func start_turn(new_action_list):
 
 func exeute_next_action():
 	var action = action_list.pop_front()
-	shoot(10)
 	if action:
-		move(action)
+		if action == "shoot":
+			shoot(10)
+			return
+		else:
+			move(action)
 
 func move(dir):
 	ray.cast_to = inputs[dir] * tile_size
