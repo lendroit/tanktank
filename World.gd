@@ -2,34 +2,54 @@ extends Node
 
 
 onready var player1 = $World/Player
-# onready var player2 = $Player2
+onready var player2 = $World/Player2
 
-func _process(delta):
-	pass
+var player_1_ready = false
+var player_2_ready = false
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	
-	player1.start_turn(["right", "down", "right"])
-	# player2.start_turn(["down", "down", "down"])
-	pass # Replace with function body.
+var player_1_action = []
+var player_2_action = []
 
+func _input(event):
+	if event.is_action_pressed("rotate_right_p1"):
+		player_1_action.append("right")
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+	if event.is_action_pressed("rotate_left_p1"):
+		player_1_action.append("left")
 
-# onready var tank1 = $World/Grid/Tank1/Script
-# onready var tank2 = $World/Grid/Tank2/Script
-# onready var grid = $World/Grid
+	if event.is_action_pressed("move_frontward_p1"):
+		player_1_action.append("up")
 
-# Called when the node enters the scene tree for the first time.
-# func _ready():
-# 	pass
-	# tank1.connect("add_action", $GUI, "add_p1_action")
-	# tank2.connect("add_action", $GUI, "add_p2_action")
-	# grid.connect("execute_actions", $GUI, "clear_actions")
+	if event.is_action_pressed("move_backward_p1"):
+		player_1_action.append("down")
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+	if event.is_action_pressed("shoot_p1"):
+		pass
+
+	if event.is_action_pressed("rotate_right_p2"):
+		player_2_action.append("right")
+
+	if event.is_action_pressed("rotate_left_p2"):
+		player_2_action.append("left")
+
+	if event.is_action_pressed("move_frontward_p2"):
+		player_2_action.append("up")
+
+	if event.is_action_pressed("move_backward_p2"):
+		player_2_action.append("down")
+
+	if event.is_action_pressed("shoot_p2"):
+		pass
+
+	if event.is_action_pressed("end_turn_p1"):
+		player_1_ready = true
+		if player_1_ready && player_2_ready:
+			start_turn()
+	if event.is_action_pressed("end_turn_p2"):
+		player_2_ready = true
+		if player_1_ready && player_2_ready:
+			start_turn()
+
+func start_turn():
+	player1.start_turn(player_1_action)
+	player2.start_turn(player_2_action)
