@@ -47,3 +47,7 @@ func shoot():
 
 func _on_Tween_tween_all_completed():
 	exeute_next_action()
+
+
+func _on_Laser_shooting_done():
+	exeute_next_action()

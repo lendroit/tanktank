@@ -1,5 +1,7 @@
 extends Line2D
 
+signal shooting_done
+
 onready var tween = $Tween
 onready var cannonParticles = $CannonParticles
 onready var beamParticles = $BeamParticles
@@ -63,4 +65,6 @@ func shoot():
 	yield(tween, "tween_completed")
 	cannonParticles.emitting = false
 	beamParticles.emitting = false
+	
+	emit_signal("shooting_done")
 
