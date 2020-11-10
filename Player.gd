@@ -35,7 +35,7 @@ func move(dir):
 	ray.force_raycast_update()
 	if !ray.is_colliding():
 		move_tween(inputs[dir])
-		
+
 func move_tween(dir):
 	tween.interpolate_property(self, "position",
 		position, position + dir * tile_size,

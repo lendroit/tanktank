@@ -1,4 +1,5 @@
 extends MarginContainer
+class_name GUI
 
 onready var p1_action_indicator_container = $Container/P1ActionIndicator
 onready var p2_action_indicator_container = $Container/P2ActionIndicator
