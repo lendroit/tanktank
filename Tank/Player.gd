@@ -10,6 +10,7 @@ export var speed = 3
 const BUMP_FORCE = 0.4
 
 signal next_action_starting
+signal turn_ended
 signal action_ended
 
 var direction = Direction.ENUM.DOWN
@@ -51,9 +52,10 @@ func exeute_next_action():
 			moveFrontward()
 			return
 		if action == "down":
-
 			moveBackward()
 			return
+	else:
+		emit_signal("turn_ended")
 
 func moveFrontward():
 	var movement_direction = Direction.VECTORS[direction]
