@@ -97,4 +97,5 @@ func _on_Laser_shooting_done():
 
 func hit():
 	print("Ow I died")
+	queue_free()
 	pass
