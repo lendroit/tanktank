@@ -1,4 +1,4 @@
-extends Area2D
+extends KinematicBody2D
 
 onready var tween = $Tween
 onready var tween_bump_obstacle = $TweenBumpObstacle
