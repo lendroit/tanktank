@@ -1,10 +1,13 @@
 extends Area2D
 
 onready var tween = $Tween
-onready var frontRay = $FrontRayCast2D
-onready var backRay = $BackRayCast2D
+onready var front_ray = $FrontRayCast2D
+onready var back_ray = $BackRayCast2D
 
 export var speed = 3
+
+signal next_action_starting
+signal action_ended
 
 var direction = Direction.ENUM.DOWN
 
@@ -24,9 +27,14 @@ func start_turn(new_action_list):
 	action_list = new_action_list
 	exeute_next_action()
 
+func end_of_action():
+	emit_signal("action_ended")
+	exeute_next_action()
+
 func exeute_next_action():
 	var action = action_list.pop_front()
 	if action:
+		emit_signal("next_action_starting")
 		if action == "shoot":
 			shoot()
 			return
@@ -45,17 +53,20 @@ func exeute_next_action():
 			return
 
 func moveFrontward():
-	frontRay.force_raycast_update()
-	if !frontRay.is_colliding():
+	front_ray.force_raycast_update()
+	if !front_ray.is_colliding():
 		var movement_direction = Direction.VECTORS[direction]
 		move_tween(movement_direction)
 
 func moveBackward():
-	backRay.force_raycast_update()
-	if !backRay.is_colliding():
+	back_ray.force_raycast_update()
+	if !back_ray.is_colliding():
 		var opposite_direction = Direction.DIRECTIONS_ORDER[fmod(direction+2, 4)]
 		var movement_direction = Direction.VECTORS[opposite_direction]
 		move_tween(movement_direction)
+	else:
+#		animation du tank bloqué
+		end_of_action()
 
 func move_tween(dir):
 	tween.interpolate_property(self, "position",
@@ -89,8 +100,12 @@ func rotate_animate(new_rotation):
 	tween.start()
 
 func _on_Tween_tween_all_completed():
-	exeute_next_action()
+	end_of_action()
 
 
 func _on_Laser_shooting_done():
-	exeute_next_action()
+	end_of_action()
+
+func hit():
+	queue_free()
+	pass

@@ -6,6 +6,12 @@ func add_action():
 			action_indicator.enable()
 			return
 
+func remove_action():
+	for action_indicator in get_children():
+		if action_indicator.is_active:
+			action_indicator.disable()
+			return
+
 func clear_actions():
 	for action_indicator in get_children():
 		action_indicator.disable()

@@ -10,6 +10,20 @@ var player_2_ready = false
 var player_1_action = []
 var player_2_action = []
 
+func _ready():
+	print(player1)
+	player1.connect("action_ended", self, "_on_Player1_action_ended")
+	player2.connect("action_ended", self, "_on_Player2_action_ended")
+	print("ready")
+
+func _on_Player1_action_ended():
+	gui.remove_p1_action()
+	print("player1 action ended")
+	
+func _on_Player2_action_ended():
+	gui.remove_p2_action()
+	print("player2 action ended")
+
 func add_player_1_action(action):
 	player_1_action.append(action)
 	gui.add_p1_action()
@@ -61,6 +75,8 @@ func _input(event):
 func start_turn():
 	player_1_ready = false
 	player_2_ready = false
-	player1.start_turn(player_1_action)
-	player2.start_turn(player_2_action)
-	gui.clear_actions()
+	if player1:
+		player1.start_turn(player_1_action)
+	if player2:
+		player2.start_turn(player_2_action)
+
