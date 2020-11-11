@@ -8,7 +8,6 @@ func clear_actions():
 	p1_action_indicator_container.clear_actions()
 	p2_action_indicator_container.clear_actions()
 
-
 func add_p1_action():
 	p1_action_indicator_container.add_action()
 

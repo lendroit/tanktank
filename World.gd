@@ -1,25 +1,33 @@
 extends Node
 
+const PLAYER_IDS = [1, 2]
+
 onready var gui: GUI = $CanvasLayer/GUI
-onready var player1 = $World/Player
-onready var player2 = $World/Player2
+onready var players = {
+	1: $World/Player,
+	2: $World/Player2
+}
 
 var players_ready = {
 	1: false,
 	2: false
 }
 
-var player_1_turn_ongoing = false
-var player_2_turn_ongoing = false
+var players_turn_ongoing = {
+	1: false,
+	2: false
+}
 
-var player_1_action = []
-var player_2_action = []
+var players_actions = {
+	1: [],
+	2: []
+}
 
 func _ready():
-	player1.connect("action_ended", self, "_on_Player1_action_ended")
-	player2.connect("action_ended", self, "_on_Player2_action_ended")
-	player1.connect("turn_ended", self, "_on_Player1_turn_ended")
-	player2.connect("turn_ended", self, "_on_Player2_turn_ended")
+	players[1].connect("action_ended", self, "_on_Player1_action_ended")
+	players[2].connect("action_ended", self, "_on_Player2_action_ended")
+	players[1].connect("turn_ended", self, "_on_Player1_turn_ended")
+	players[2].connect("turn_ended", self, "_on_Player2_turn_ended")
 
 
 func _on_Player1_action_ended():
@@ -29,73 +37,54 @@ func _on_Player2_action_ended():
 	gui.remove_p2_action()
 
 func _on_Player1_turn_ended():
-	player_1_turn_ongoing = false
+	players_turn_ongoing[1] = false
 
 func _on_Player2_turn_ended():
-	player_2_turn_ongoing = false
+	players_turn_ongoing[2] = false
 
-func add_player_1_action(action):
-	if(player_1_action.size() >= 5):
+func add_player_action(id: int, action):
+	if(players_actions[id].size() >= 5):
 		return
-	player_1_action.append(action)
-	gui.add_p1_action()
+	players_actions[id].append(action)
+	
+	# TODO move magic to proper place
+	gui.call("add_p%s_action" % id)
 
-func add_player_2_action(action):
-	if(player_2_action.size() >= 5):
-		return
-	player_2_action.append(action)
-	gui.add_p2_action()
+func are_players_ready():
+	return players_ready[1] && players_ready[2]
+
+func is_player_turn_ongoing():
+	return players_turn_ongoing[1] || players_turn_ongoing[2]
 
 func _input(event):
-	if(player_1_turn_ongoing || player_2_turn_ongoing):
+	if(is_player_turn_ongoing()):
 		return
 
-	if event.is_action_pressed("rotate_right_p1"):
-		add_player_1_action("right")
+	for id in PLAYER_IDS:
+		if event.is_action_pressed("rotate_right_p%s" % id):
+			add_player_action(id, "right")
 
-	if event.is_action_pressed("rotate_left_p1"):
-		add_player_1_action("left")
+		if event.is_action_pressed("rotate_left_p%s" % id):
+			add_player_action(id, "left")
 
-	if event.is_action_pressed("move_frontward_p1"):
-		add_player_1_action("up")
+		if event.is_action_pressed("move_frontward_p%s" % id):
+			add_player_action(id, "up")
 
-	if event.is_action_pressed("move_backward_p1"):
-		add_player_1_action("down")
+		if event.is_action_pressed("move_backward_p%s" % id):
+			add_player_action(id, "down")
 
-	if event.is_action_pressed("shoot_p1"):
-		add_player_1_action("shoot")
+		if event.is_action_pressed("shoot_p%s" % id):
+			add_player_action(id, "shoot")
 
-	if event.is_action_pressed("rotate_right_p2"):
-		add_player_2_action("right")
-
-	if event.is_action_pressed("rotate_left_p2"):
-		add_player_2_action("left")
-
-	if event.is_action_pressed("move_frontward_p2"):
-		add_player_2_action("up")
-
-	if event.is_action_pressed("move_backward_p2"):
-		add_player_2_action("down")
-
-	if event.is_action_pressed("shoot_p2"):
-		add_player_2_action("shoot")
-
-	if event.is_action_pressed("end_turn_p1"):
-		players_ready[1] = true
-		if players_ready[1] && players_ready[2]:
-			start_turn()
-	if event.is_action_pressed("end_turn_p2"):
-		players_ready[2] = true
-		if players_ready[1] && players_ready[2]:
-			start_turn()
+		if event.is_action_pressed("end_turn_p%s" % id):
+			players_ready[id] = true
+			if are_players_ready():
+				start_turn()
 
 func start_turn():
-	players_ready[1] = false
-	players_ready[2] = false
-	if player1:
-		player_1_turn_ongoing = true
-		player1.start_turn(player_1_action)
-	if player2:
-		player_2_turn_ongoing = true
-		player2.start_turn(player_2_action)
+	for id in PLAYER_IDS:
+		players_ready[id] = false
+		if players[id]:
+			players_turn_ongoing[id] = true
+			players[id].start_turn(players_actions[id])
 
