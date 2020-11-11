@@ -12,17 +12,17 @@ var player_2_action = []
 
 func _ready():
 	print(player1)
-	player1.connect("next_action_starting", self, "_on_Player1_next_action_started")
-	player2.connect("next_action_starting", self, "_on_Player2_next_action_started")
+	player1.connect("action_ended", self, "_on_Player1_action_ended")
+	player2.connect("action_ended", self, "_on_Player2_action_ended")
 	print("ready")
 
-func _on_Player1_next_action_started():
+func _on_Player1_action_ended():
 	gui.remove_p1_action()
-	print("player1 executing action")
+	print("player1 action ended")
 	
-func _on_Player2_next_action_started():
+func _on_Player2_action_ended():
 	gui.remove_p2_action()
-	print("player2 executed action")
+	print("player2 action ended")
 
 func add_player_1_action(action):
 	player_1_action.append(action)

@@ -7,6 +7,7 @@ onready var backRay = $BackRayCast2D
 export var speed = 3
 
 signal next_action_starting
+signal action_ended
 
 var direction = Direction.ENUM.DOWN
 
@@ -24,6 +25,10 @@ func _ready():
 
 func start_turn(new_action_list):
 	action_list = new_action_list
+	exeute_next_action()
+
+func end_of_action():
+	emit_signal("action_ended")
 	exeute_next_action()
 
 func exeute_next_action():
@@ -61,7 +66,7 @@ func moveBackward():
 		move_tween(movement_direction)
 	else:
 #		animation du tank bloqué
-		exeute_next_action()
+		end_of_action()
 
 func move_tween(dir):
 	tween.interpolate_property(self, "position",
@@ -95,13 +100,12 @@ func rotate_animate(new_rotation):
 	tween.start()
 
 func _on_Tween_tween_all_completed():
-	exeute_next_action()
+	end_of_action()
 
 
 func _on_Laser_shooting_done():
-	exeute_next_action()
+	end_of_action()
 
 func hit():
-	print("Ow I died")
 	queue_free()
 	pass
