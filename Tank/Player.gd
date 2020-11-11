@@ -56,6 +56,9 @@ func moveBackward():
 		var opposite_direction = Direction.DIRECTIONS_ORDER[fmod(direction+2, 4)]
 		var movement_direction = Direction.VECTORS[opposite_direction]
 		move_tween(movement_direction)
+	else:
+#		animation du tank bloqué
+		exeute_next_action()
 
 func move_tween(dir):
 	tween.interpolate_property(self, "position",
