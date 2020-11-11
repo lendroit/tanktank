@@ -18,7 +18,7 @@ rotation = 3.14159
 scale = Vector2( 0.727874, 0.727874 )
 texture = ExtResource( 2 )
 
-[node name="barrelGreen" type="Sprite" parent="."]
+[node name="Barrel" type="Sprite" parent="."]
 position = Vector2( 0, 18.3543 )
 scale = Vector2( 0.722, 0.722 )
 texture = ExtResource( 3 )

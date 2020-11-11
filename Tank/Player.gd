@@ -1,10 +1,14 @@
 extends KinematicBody2D
 
+onready var sprite = $Sprite
+onready var barrel = $Barrel
 onready var tween = $Tween
 onready var tween_bump_obstacle = $TweenBumpObstacle
 onready var front_ray = $FrontRayCast2D
 onready var back_ray = $BackRayCast2D
 onready var next_position_collision_shape = $NextPositionCollisionShape
+
+export(int, 1, 2) var player_id = 1
 
 export var speed = 3
 
@@ -22,11 +26,24 @@ var inputs = {"right": Vector2.RIGHT,
 			"up": Vector2.UP,
 			"down": Vector2.DOWN}
 
+var body_sprites = {
+	1: preload("res://Tank/Assets/tankGreen_outline.png"),
+	2: preload("res://Tank/Assets/tankBlue_outline.png"),
+}
+
+var barrel_sprites = {
+	1: preload("res://Tank/Assets/barrelGreen_outline.png"),
+	2: preload("res://Tank/Assets/barrelBlue_outline.png"),
+}
+
 var action_list
 
 func _ready():
 	position = position.snapped(Vector2.ONE * tile_size)
 	position += Vector2.ONE * tile_size/2
+	
+	sprite.texture = body_sprites[player_id]
+	barrel.texture = barrel_sprites[player_id]
 
 func start_turn(new_action_list):
 	action_list = new_action_list
