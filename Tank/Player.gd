@@ -4,6 +4,7 @@ onready var tween = $Tween
 onready var tween_bump_obstacle = $TweenBumpObstacle
 onready var front_ray = $FrontRayCast2D
 onready var back_ray = $BackRayCast2D
+onready var next_position_collision_shape = $NextPositionCollisionShape
 
 export var speed = 3
 
@@ -60,11 +61,15 @@ func exeute_next_action():
 func moveFrontward():
 	var movement_direction = Direction.VECTORS[direction]
 
+	next_position_collision_shape.disabled = false
+	yield(get_tree().create_timer(0.01), "timeout")
 	front_ray.force_raycast_update()
 	if !front_ray.is_colliding():
 		move_tween(movement_direction)
 	else:
 		bump_against_obstacle(movement_direction)
+	yield(get_tree().create_timer(0.01), "timeout")
+	next_position_collision_shape.disabled = true
 
 
 func moveBackward():
