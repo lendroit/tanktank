@@ -6,6 +6,8 @@ onready var backRay = $BackRayCast2D
 
 export var speed = 3
 
+signal next_action_starting
+
 var direction = Direction.ENUM.DOWN
 
 var tile_size = 64
@@ -27,6 +29,7 @@ func start_turn(new_action_list):
 func exeute_next_action():
 	var action = action_list.pop_front()
 	if action:
+		emit_signal("next_action_starting")
 		if action == "shoot":
 			shoot()
 			return
