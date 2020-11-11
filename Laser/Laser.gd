@@ -23,9 +23,11 @@ func shoot():
 	
 	var cast_point = ray_cast_2d.cast_to
 	ray_cast_2d.force_raycast_update()
+	var target
 	
 	if ray_cast_2d.is_colliding():
 		cast_point = to_local(ray_cast_2d.get_collision_point())
+		target = ray_cast_2d.get_collider()
 	
 	var draw_world_length = cast_point
 
@@ -65,6 +67,7 @@ func shoot():
 	yield(tween, "tween_completed")
 	cannonParticles.emitting = false
 	beamParticles.emitting = false
+	target.hit()
 	
 	emit_signal("shooting_done")
 
