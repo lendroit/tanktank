@@ -28,3 +28,7 @@ lifetime = 0.3
 local_coords = false
 process_material = ExtResource( 1 )
 texture = ExtResource( 4 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+cast_to = Vector2( 0, -1000 )
+collide_with_areas = true
