@@ -1,10 +1,13 @@
 extends Area2D
 
 onready var tween = $Tween
+onready var tween_bump_obstacle = $TweenBumpObstacle
 onready var front_ray = $FrontRayCast2D
 onready var back_ray = $BackRayCast2D
 
 export var speed = 3
+
+const BUMP_FORCE = 0.4
 
 signal next_action_starting
 signal action_ended
@@ -53,23 +56,24 @@ func exeute_next_action():
 			return
 
 func moveFrontward():
+	var movement_direction = Direction.VECTORS[direction]
+
 	front_ray.force_raycast_update()
 	if !front_ray.is_colliding():
-		var movement_direction = Direction.VECTORS[direction]
 		move_tween(movement_direction)
 	else:
-#		animation du tank bloqué
-		end_of_action()
+		bump_against_obstacle(movement_direction)
+
 
 func moveBackward():
+	var opposite_direction = Direction.DIRECTIONS_ORDER[fmod(direction+2, 4)]
+	var movement_direction = Direction.VECTORS[opposite_direction]
+	
 	back_ray.force_raycast_update()
 	if !back_ray.is_colliding():
-		var opposite_direction = Direction.DIRECTIONS_ORDER[fmod(direction+2, 4)]
-		var movement_direction = Direction.VECTORS[opposite_direction]
 		move_tween(movement_direction)
 	else:
-#		animation du tank bloqué
-		end_of_action()
+		bump_against_obstacle(movement_direction)
 
 func move_tween(dir):
 	tween.interpolate_property(self, "position",
@@ -112,3 +116,22 @@ func _on_Laser_shooting_done():
 func hit():
 	queue_free()
 	pass
+
+func bump_against_obstacle(movement_direction):
+	tween_bump_obstacle.interpolate_property(self, "position",
+		position, position + movement_direction * tile_size * BUMP_FORCE,
+		BUMP_FORCE * 1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	tween_bump_obstacle.start()
+	
+	yield(tween_bump_obstacle, "tween_completed")
+	
+	tween_bump_obstacle.interpolate_property(self, "position",
+		position, position - movement_direction * tile_size * BUMP_FORCE,
+		BUMP_FORCE * 1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	tween_bump_obstacle.start()
+	
+	yield(tween_bump_obstacle, "tween_completed")
+	
+	# TODO make sure that animation length corresponds to other animations
+	
+	end_of_action()

@@ -35,5 +35,8 @@ cast_to = Vector2( 0, 64 )
 [node name="Laser" parent="." instance=ExtResource( 4 )]
 position = Vector2( -1.52588e-05, 35.0959 )
 rotation = 3.14159
+
+[node name="TweenBumpObstacle" type="Tween" parent="."]
 [connection signal="tween_all_completed" from="Tween" to="." method="_on_Tween_tween_all_completed"]
 [connection signal="shooting_done" from="Laser" to="." method="_on_Laser_shooting_done"]
+[connection signal="tween_completed" from="TweenBumpObstacle" to="." method="_on_TweenBumpWall_tween_completed"]
