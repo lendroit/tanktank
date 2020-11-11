@@ -1,6 +1,7 @@
 extends Node
 
 const PLAYER_IDS = [1, 2]
+const NUMBER_OF_ACTIONS_PER_TURN = 5
 
 onready var gui: GUI = $CanvasLayer/GUI
 onready var players = {
@@ -43,7 +44,7 @@ func _on_Player2_turn_ended():
 	players_turn_ongoing[2] = false
 
 func add_player_action(id: int, action):
-	if(players_actions[id].size() >= 5):
+	if(players_actions[id].size() >= NUMBER_OF_ACTIONS_PER_TURN):
 		return
 	players_actions[id].append(action)
 	
