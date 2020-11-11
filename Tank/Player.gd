@@ -57,6 +57,9 @@ func moveFrontward():
 	if !front_ray.is_colliding():
 		var movement_direction = Direction.VECTORS[direction]
 		move_tween(movement_direction)
+	else:
+#		animation du tank bloqué
+		end_of_action()
 
 func moveBackward():
 	back_ray.force_raycast_update()
