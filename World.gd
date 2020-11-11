@@ -61,6 +61,8 @@ func _input(event):
 func start_turn():
 	player_1_ready = false
 	player_2_ready = false
-	player1.start_turn(player_1_action)
-	player2.start_turn(player_2_action)
+	if player1:
+		player1.start_turn(player_1_action)
+	if player2:
+		player2.start_turn(player_2_action)
 	gui.clear_actions()
