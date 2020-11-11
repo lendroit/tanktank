@@ -6,7 +6,8 @@ onready var tween = $Tween
 onready var tween_bump_obstacle = $TweenBumpObstacle
 onready var front_ray = $FrontRayCast2D
 onready var back_ray = $BackRayCast2D
-onready var next_position_collision_shape = $NextPositionCollisionShape
+onready var next_front_position_collision_shape = $NextFrontPositionCollisionShape
+onready var next_rear_position_collision_shape = $NextRearPositionCollisionShape
 
 export(int, 1, 2) var player_id = 1
 
@@ -76,28 +77,34 @@ func exeute_next_action():
 		emit_signal("turn_ended")
 
 func moveFrontward():
+	next_front_position_collision_shape.disabled = false
+	yield(get_tree().create_timer(0.1), "timeout")
+	
 	var movement_direction = Direction.VECTORS[direction]
-
-	next_position_collision_shape.disabled = false
-	yield(get_tree().create_timer(0.01), "timeout")
 	front_ray.force_raycast_update()
 	if !front_ray.is_colliding():
 		move_tween(movement_direction)
 	else:
 		bump_against_obstacle(movement_direction)
-	yield(get_tree().create_timer(0.01), "timeout")
-	next_position_collision_shape.disabled = true
+
+	yield(get_tree().create_timer(0.1), "timeout")
+	next_front_position_collision_shape.disabled = true
 
 
 func moveBackward():
+	next_rear_position_collision_shape.disabled = false
+	yield(get_tree().create_timer(0.1), "timeout")
+
 	var opposite_direction = Direction.DIRECTIONS_ORDER[fmod(direction+2, 4)]
 	var movement_direction = Direction.VECTORS[opposite_direction]
-	
 	back_ray.force_raycast_update()
 	if !back_ray.is_colliding():
 		move_tween(movement_direction)
 	else:
 		bump_against_obstacle(movement_direction)
+
+	yield(get_tree().create_timer(0.1), "timeout")
+	next_rear_position_collision_shape.disabled = true
 
 func move_tween(dir):
 	tween.interpolate_property(self, "position",
