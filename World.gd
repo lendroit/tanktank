@@ -4,8 +4,10 @@ onready var gui: GUI = $CanvasLayer/GUI
 onready var player1 = $World/Player
 onready var player2 = $World/Player2
 
-var player_1_ready = false
-var player_2_ready = false
+var players_ready = {
+	1: false,
+	2: false
+}
 
 var player_1_turn_ongoing = false
 var player_2_turn_ongoing = false
@@ -79,17 +81,17 @@ func _input(event):
 		add_player_2_action("shoot")
 
 	if event.is_action_pressed("end_turn_p1"):
-		player_1_ready = true
-		if player_1_ready && player_2_ready:
+		players_ready[1] = true
+		if players_ready[1] && players_ready[2]:
 			start_turn()
 	if event.is_action_pressed("end_turn_p2"):
-		player_2_ready = true
-		if player_1_ready && player_2_ready:
+		players_ready[2] = true
+		if players_ready[1] && players_ready[2]:
 			start_turn()
 
 func start_turn():
-	player_1_ready = false
-	player_2_ready = false
+	players_ready[1] = false
+	players_ready[2] = false
 	if player1:
 		player_1_turn_ongoing = true
 		player1.start_turn(player_1_action)
