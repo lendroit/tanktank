@@ -31,10 +31,10 @@ func _ready():
 
 
 func _on_Player1_action_ended():
-	gui.remove_p1_action()
+	gui.remove_action(1)
 
 func _on_Player2_action_ended():
-	gui.remove_p2_action()
+	gui.remove_action(2)
 
 func _on_Player1_turn_ended():
 	players_turn_ongoing[1] = false
@@ -47,8 +47,7 @@ func add_player_action(id: int, action):
 		return
 	players_actions[id].append(action)
 	
-	# TODO move magic to proper place
-	gui.call("add_p%s_action" % id)
+	gui.add_action(id)
 
 func are_players_ready():
 	return players_ready[1] && players_ready[2]
