@@ -1,82 +1,90 @@
 extends Node
 
+const PLAYER_IDS = [1, 2]
+const NUMBER_OF_ACTIONS_PER_TURN = 5
+
 onready var gui: GUI = $CanvasLayer/GUI
-onready var player1 = $World/Player
-onready var player2 = $World/Player2
+onready var players = {
+	1: $World/Player,
+	2: $World/Player2
+}
 
-var player_1_ready = false
-var player_2_ready = false
+var players_ready = {
+	1: false,
+	2: false
+}
 
-var player_1_action = []
-var player_2_action = []
+var players_turn_ongoing = {
+	1: false,
+	2: false
+}
+
+var players_actions = {
+	1: [],
+	2: []
+}
 
 func _ready():
-	print(player1)
-	player1.connect("action_ended", self, "_on_Player1_action_ended")
-	player2.connect("action_ended", self, "_on_Player2_action_ended")
-	print("ready")
+	players[1].connect("action_ended", self, "_on_Player1_action_ended")
+	players[2].connect("action_ended", self, "_on_Player2_action_ended")
+	players[1].connect("turn_ended", self, "_on_Player1_turn_ended")
+	players[2].connect("turn_ended", self, "_on_Player2_turn_ended")
+
 
 func _on_Player1_action_ended():
-	gui.remove_p1_action()
-	print("player1 action ended")
-	
+	gui.remove_action(1)
+
 func _on_Player2_action_ended():
-	gui.remove_p2_action()
-	print("player2 action ended")
+	gui.remove_action(2)
 
-func add_player_1_action(action):
-	player_1_action.append(action)
-	gui.add_p1_action()
+func _on_Player1_turn_ended():
+	players_turn_ongoing[1] = false
 
-func add_player_2_action(action):
-	player_2_action.append(action)
-	gui.add_p2_action()
+func _on_Player2_turn_ended():
+	players_turn_ongoing[2] = false
+
+func add_player_action(id: int, action):
+	if(players_actions[id].size() >= NUMBER_OF_ACTIONS_PER_TURN):
+		return
+	players_actions[id].append(action)
+	
+	gui.add_action(id)
+
+func are_players_ready():
+	return players_ready[1] && players_ready[2]
+
+func is_player_turn_ongoing():
+	return players_turn_ongoing[1] || players_turn_ongoing[2]
 
 func _input(event):
-	if event.is_action_pressed("rotate_right_p1"):
-		add_player_1_action("right")
+	if(is_player_turn_ongoing()):
+		return
 
-	if event.is_action_pressed("rotate_left_p1"):
-		add_player_1_action("left")
+	for id in PLAYER_IDS:
+		if event.is_action_pressed("rotate_right_p%s" % id):
+			add_player_action(id, "right")
 
-	if event.is_action_pressed("move_frontward_p1"):
-		add_player_1_action("up")
+		if event.is_action_pressed("rotate_left_p%s" % id):
+			add_player_action(id, "left")
 
-	if event.is_action_pressed("move_backward_p1"):
-		add_player_1_action("down")
+		if event.is_action_pressed("move_frontward_p%s" % id):
+			add_player_action(id, "up")
 
-	if event.is_action_pressed("shoot_p1"):
-		add_player_1_action("shoot")
+		if event.is_action_pressed("move_backward_p%s" % id):
+			add_player_action(id, "down")
 
-	if event.is_action_pressed("rotate_right_p2"):
-		add_player_2_action("right")
+		if event.is_action_pressed("shoot_p%s" % id):
+			add_player_action(id, "shoot")
 
-	if event.is_action_pressed("rotate_left_p2"):
-		add_player_2_action("left")
-
-	if event.is_action_pressed("move_frontward_p2"):
-		add_player_2_action("up")
-
-	if event.is_action_pressed("move_backward_p2"):
-		add_player_2_action("down")
-
-	if event.is_action_pressed("shoot_p2"):
-		add_player_2_action("shoot")
-
-	if event.is_action_pressed("end_turn_p1"):
-		player_1_ready = true
-		if player_1_ready && player_2_ready:
-			start_turn()
-	if event.is_action_pressed("end_turn_p2"):
-		player_2_ready = true
-		if player_1_ready && player_2_ready:
-			start_turn()
+		if event.is_action_pressed("end_turn_p%s" % id):
+			players_ready[id] = true
+			if are_players_ready():
+				start_turn()
 
 func start_turn():
-	player_1_ready = false
-	player_2_ready = false
-	if player1:
-		player1.start_turn(player_1_action)
-	if player2:
-		player2.start_turn(player_2_action)
+	for id in PLAYER_IDS:
+		players_ready[id] = false
+		if players[id]:
+			players_turn_ongoing[id] = true
+			players[id].start_turn(players_actions[id])
 
