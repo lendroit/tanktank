@@ -1,6 +1,6 @@
 extends Node
 
-onready var gui: GUI = $GUI
+onready var gui: GUI = $CanvasLayer/GUI
 onready var player1 = $World/Player
 onready var player2 = $World/Player2
 

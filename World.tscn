@@ -26,4 +26,10 @@ position = Vector2( 214.982, 192.556 )
 [node name="WorldEnvironment" type="WorldEnvironment" parent="World"]
 environment = SubResource( 1 )
 
-[node name="GUI" parent="." instance=ExtResource( 4 )]
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 576, 384 )
+current = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GUI" parent="CanvasLayer" instance=ExtResource( 4 )]
