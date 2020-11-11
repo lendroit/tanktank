@@ -1,9 +1,12 @@
 extends Area2D
 
 onready var tween = $Tween
-onready var ray = $RayCast2D
+onready var frontRay = $FrontRayCast2D
+onready var backRay = $BackRayCast2D
 
 export var speed = 3
+
+var direction = Direction.ENUM.DOWN
 
 var tile_size = 64
 var inputs = {"right": Vector2.RIGHT,
@@ -27,14 +30,32 @@ func exeute_next_action():
 		if action == "shoot":
 			shoot()
 			return
-		else:
-			move(action)
+		if action == "left":
+			rotate_left()
+			return
+		if action == "right":
+			rotate_right()
+			return
+		if action == "up":
+			moveFrontward()
+			return
+		if action == "down":
 
-func move(dir):
-	ray.cast_to = inputs[dir] * tile_size
-	ray.force_raycast_update()
-	if !ray.is_colliding():
-		move_tween(inputs[dir])
+			moveBackward()
+			return
+
+func moveFrontward():
+	frontRay.force_raycast_update()
+	if !frontRay.is_colliding():
+		var movement_direction = Direction.VECTORS[direction]
+		move_tween(movement_direction)
+
+func moveBackward():
+	backRay.force_raycast_update()
+	if !backRay.is_colliding():
+		var opposite_direction = Direction.DIRECTIONS_ORDER[fmod(direction+2, 4)]
+		var movement_direction = Direction.VECTORS[opposite_direction]
+		move_tween(movement_direction)
 
 func move_tween(dir):
 	tween.interpolate_property(self, "position",
@@ -44,6 +65,28 @@ func move_tween(dir):
 
 func shoot():
 	$Laser.shoot()
+
+func rotate_left():
+	var new_direction = fmod(direction + 3, 4)
+	direction = Direction.DIRECTIONS_ORDER[new_direction]
+	self.rotate_animate(-PI/2)
+
+func rotate_right():
+	var new_direction = fmod(direction + 1, 4)
+	direction = Direction.DIRECTIONS_ORDER[new_direction]
+	self.rotate_animate(PI/2)
+
+func rotate_animate(new_rotation):
+	tween.interpolate_property(
+		self,
+		"rotation",
+		self.rotation,
+		self.rotation + new_rotation,
+		0.2,
+		Tween.TRANS_LINEAR,
+		Tween.EASE_IN_OUT
+	)
+	tween.start()
 
 func _on_Tween_tween_all_completed():
 	exeute_next_action()

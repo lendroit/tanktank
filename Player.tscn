@@ -23,8 +23,12 @@ texture = ExtResource( 3 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="BackRayCast2D" type="RayCast2D" parent="."]
+cast_to = Vector2( 0, -50 )
+
+[node name="FrontRayCast2D" type="RayCast2D" parent="."]
 enabled = true
+cast_to = Vector2( 0, 64 )
 
 [node name="Tween" type="Tween" parent="."]
 
