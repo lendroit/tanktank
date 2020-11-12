@@ -30,3 +30,4 @@ margin_right = 634.0
 size_flags_horizontal = 3
 
 [node name="P2ActionIndicator" parent="Container" instance=ExtResource( 1 )]
+player_id = 2
