@@ -90,6 +90,10 @@ func _input(event):
 			if are_players_ready():
 				start_turn()
 
+	if event.is_action_pressed("restart"):
+		get_tree().reload_current_scene()
+
+
 func start_turn():
 	for id in PLAYER_IDS:
 		players_ready[id] = false
