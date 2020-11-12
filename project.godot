@@ -18,16 +18,10 @@ _global_script_classes=[ {
 "class": "GUI",
 "language": "GDScript",
 "path": "res://UI/GUI.gd"
-}, {
-"base": "TileMap",
-"class": "Grid",
-"language": "GDScript",
-"path": "res://Grid.gd"
 } ]
 _global_script_class_icons={
 "Direction": "",
-"GUI": "",
-"Grid": ""
+"GUI": ""
 }
 
 [application]
