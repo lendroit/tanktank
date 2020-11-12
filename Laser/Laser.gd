@@ -67,7 +67,7 @@ func shoot():
 	yield(tween, "tween_completed")
 	cannonParticles.emitting = false
 	beamParticles.emitting = false
-	if target.has_method("hit"):
+	if target && target.has_method("hit"):
 		target.hit()
 	
 	emit_signal("shooting_done")
