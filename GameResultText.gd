@@ -5,12 +5,6 @@ const player_colors = {
 	2: Color(30 / 255.0, 167 / 255.0, 255 / 255.0)
 }
 
-func _input(event):
-	if event.is_action_pressed("debug_a"):
-		player_wins(1)
-	if event.is_action_pressed("debug_b"):
-		player_wins(2)
-
 func player_wins(id: int):
 	self.visible = true
 	self.text = "PLAYER %s WINS" % id
