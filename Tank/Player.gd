@@ -18,6 +18,7 @@ const BUMP_FORCE = 0.4
 signal next_action_starting
 signal turn_ended
 signal action_ended
+signal died
 
 var direction = Direction.ENUM.DOWN
 
@@ -145,6 +146,7 @@ func _on_Laser_shooting_done():
 	end_of_action()
 
 func hit():
+	emit_signal("died")
 	queue_free()
 	pass
 

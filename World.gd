@@ -4,6 +4,7 @@ const PLAYER_IDS = [1, 2]
 const NUMBER_OF_ACTIONS_PER_TURN = 5
 
 onready var gui: GUI = $CanvasLayer/GUI
+onready var game_result_text = $CanvasLayer/GameResultText
 onready var players = {
 	1: $World/Player,
 	2: $World/Player2
@@ -29,6 +30,8 @@ func _ready():
 	players[2].connect("action_ended", self, "_on_Player2_action_ended")
 	players[1].connect("turn_ended", self, "_on_Player1_turn_ended")
 	players[2].connect("turn_ended", self, "_on_Player2_turn_ended")
+	players[1].connect("died", self, "_on_Player1_died")
+	players[2].connect("died", self, "_on_Player2_died")
 
 
 func _on_Player1_action_ended():
@@ -42,6 +45,12 @@ func _on_Player1_turn_ended():
 
 func _on_Player2_turn_ended():
 	players_turn_ongoing[2] = false
+
+func _on_Player2_died():
+	game_result_text.player_wins(1)
+
+func _on_Player1_died():
+	game_result_text.player_wins(2)
 
 func add_player_action(id: int, action):
 	if(players_actions[id].size() >= NUMBER_OF_ACTIONS_PER_TURN):
