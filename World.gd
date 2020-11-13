@@ -66,6 +66,9 @@ func is_player_turn_ongoing():
 	return players_turn_ongoing[1] || players_turn_ongoing[2]
 
 func _input(event):
+	if event.is_action_pressed("restart"):
+		get_tree().reload_current_scene()
+
 	if(is_player_turn_ongoing()):
 		return
 
@@ -90,8 +93,6 @@ func _input(event):
 			if are_players_ready():
 				start_turn()
 
-	if event.is_action_pressed("restart"):
-		get_tree().reload_current_scene()
 
 
 func start_turn():
