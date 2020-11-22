@@ -1,31 +1,54 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://UI/ActionIndicatorContainer.gd" type="Script" id=1]
+[ext_resource path="res://Roboto-Regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://UI/ActionIndicator.tscn" type="PackedScene" id=3]
 
-[node name="PlayerActionIndicator" type="HBoxContainer"]
-margin_left = 638.0
-margin_right = 834.0
+[sub_resource type="DynamicFont" id=1]
+size = 30
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[node name="VBoxContainer" type="VBoxContainer"]
+margin_left = 200.0
+margin_right = 200.0
 margin_bottom = 36.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="1" parent="." instance=ExtResource( 3 )]
+[node name="PlayerActionIndicator" type="HBoxContainer" parent="."]
+margin_right = 196.0
+margin_bottom = 36.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="2" parent="." instance=ExtResource( 3 )]
+[node name="1" parent="PlayerActionIndicator" instance=ExtResource( 3 )]
+
+[node name="2" parent="PlayerActionIndicator" instance=ExtResource( 3 )]
 margin_left = 40.0
 margin_right = 76.0
 
-[node name="3" parent="." instance=ExtResource( 3 )]
+[node name="3" parent="PlayerActionIndicator" instance=ExtResource( 3 )]
 margin_left = 80.0
 margin_right = 116.0
 
-[node name="4" parent="." instance=ExtResource( 3 )]
+[node name="4" parent="PlayerActionIndicator" instance=ExtResource( 3 )]
 margin_left = 120.0
 margin_right = 156.0
 
-[node name="5" parent="." instance=ExtResource( 3 )]
+[node name="5" parent="PlayerActionIndicator" instance=ExtResource( 3 )]
 margin_left = 160.0
 margin_right = 196.0
+
+[node name="Ready" type="Label" parent="."]
+visible = false
+margin_top = 40.0
+margin_right = 196.0
+margin_bottom = 76.0
+custom_fonts/font = SubResource( 1 )
+text = "ready"
+uppercase = true

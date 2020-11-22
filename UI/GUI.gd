@@ -15,3 +15,6 @@ func add_action(player_id: int):
 
 func remove_action(player_id: int):
 	player_action_indicator_container[player_id].remove_action()
+
+func set_ready(player_id: int, state: bool):
+	player_action_indicator_container[player_id].set_ready(state)

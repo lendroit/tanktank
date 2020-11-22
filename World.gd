@@ -90,6 +90,7 @@ func _input(event):
 
 		if event.is_action_pressed("end_turn_p%s" % id):
 			players_ready[id] = true
+			gui.set_ready(id, true)
 			if are_players_ready():
 				start_turn()
 
@@ -98,6 +99,7 @@ func _input(event):
 func start_turn():
 	for id in PLAYER_IDS:
 		players_ready[id] = false
+		gui.set_ready(id, false)
 		if players[id]:
 			players_turn_ongoing[id] = true
 			players[id].start_turn(players_actions[id])
