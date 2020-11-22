@@ -25,7 +25,6 @@ signal shoot_bullet
 
 var shots_left_before_reload = MAX_SHOTS
 
-var tile_size = 64
 var inputs = {"right": Vector2.RIGHT,
 			"left": Vector2.LEFT,
 			"up": Vector2.UP,
@@ -44,8 +43,8 @@ var barrel_sprites = {
 var action_list
 
 func _ready():
-	position = position.snapped(Vector2.ONE * tile_size)
-	position += Vector2.ONE * tile_size/2
+	position = position.snapped(Vector2.ONE * Constants.GRID_SIZE)
+	position += Vector2.ONE * Constants.GRID_SIZE/2
 	
 	sprite.texture = body_sprites[player_id]
 	barrel.texture = barrel_sprites[player_id]
@@ -98,10 +97,10 @@ func move_right():
 
 func move(movement_direction: Vector2):
 	orientate_tank(movement_direction)
-	next_position_collision_shape.position = movement_direction * tile_size
+	next_position_collision_shape.position = movement_direction * Constants.GRID_SIZE
 	next_position_collision_shape.disabled = false
 	yield(get_tree().create_timer(0.1), "timeout")
-	next_position_ray.cast_to = movement_direction * tile_size
+	next_position_ray.cast_to = movement_direction * Constants.GRID_SIZE
 	next_position_ray.force_raycast_update()
 	if !next_position_ray.is_colliding():
 		move_tween(movement_direction)
@@ -113,7 +112,7 @@ func move(movement_direction: Vector2):
 
 func move_tween(dir):
 	tween.interpolate_property(self, "position",
-		position, position + dir * tile_size,
+		position, position + dir * Constants.GRID_SIZE,
 		1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.start()
 
@@ -147,7 +146,7 @@ func hit():
 
 func bump_against_obstacle(movement_direction):
 	tween_bump_obstacle.interpolate_property(self, "position",
-		position, position + movement_direction * tile_size * BUMP_FORCE,
+		position, position + movement_direction * Constants.GRID_SIZE * BUMP_FORCE,
 		# TODO synchronized turn time
 		BUMP_FORCE * 1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween_bump_obstacle.start()
@@ -155,7 +154,7 @@ func bump_against_obstacle(movement_direction):
 	yield(tween_bump_obstacle, "tween_completed")
 	
 	tween_bump_obstacle.interpolate_property(self, "position",
-		position, position - movement_direction * tile_size * BUMP_FORCE,
+		position, position - movement_direction * Constants.GRID_SIZE * BUMP_FORCE,
 		# TODO synchronized turn time
 		BUMP_FORCE * 1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween_bump_obstacle.start()

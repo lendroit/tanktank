@@ -9,9 +9,6 @@ var world = null
 # TODO align this with Player...
 export var speed = 3
 
-# TODO refactor in constants
-var tile_size = 64
-
 func custom_init(world, player_id_param: int, direction_param: Vector2):
 	self.direction = direction_param
 	self.player_id = player_id_param
@@ -23,7 +20,7 @@ func _ready():
 
 func move_tween():
 	tween.interpolate_property(self, "position",
-		position, position + direction * tile_size,
+		position, position + direction * Constants.GRID_SIZE,
 		1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.start()
 
