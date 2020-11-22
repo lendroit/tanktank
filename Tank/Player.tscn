@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Tank/Player.gd" type="Script" id=1]
 [ext_resource path="res://Tank/Assets/tankGreen_outline.png" type="Texture" id=2]
@@ -9,10 +9,6 @@
 extents = Vector2( 28, 28 )
 
 [sub_resource type="RectangleShape2D" id=2]
-
-[sub_resource type="RectangleShape2D" id=3]
-
-[sub_resource type="RectangleShape2D" id=4]
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -30,14 +26,6 @@ texture = ExtResource( 3 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="BackRayCast2D" type="RayCast2D" parent="."]
-enabled = true
-cast_to = Vector2( 0, -64 )
-
-[node name="FrontRayCast2D" type="RayCast2D" parent="."]
-enabled = true
-cast_to = Vector2( 0, 64 )
-
 [node name="Tween" type="Tween" parent="."]
 
 [node name="Laser" parent="." instance=ExtResource( 4 )]
@@ -46,22 +34,12 @@ rotation = 3.14159
 
 [node name="TweenBumpObstacle" type="Tween" parent="."]
 
-[node name="NextFrontPositionCollisionShape" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 64 )
-shape = SubResource( 2 )
-disabled = true
-
-[node name="NextRearPositionCollisionShape" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -64 )
-shape = SubResource( 3 )
-disabled = true
-
 [node name="NextPositionRayCast2D" type="RayCast2D" parent="."]
 cast_to = Vector2( 0, 0 )
 
 [node name="NextPositionCollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 64 )
-shape = SubResource( 4 )
+shape = SubResource( 2 )
 disabled = true
 [connection signal="tween_all_completed" from="Tween" to="." method="_on_Tween_tween_all_completed"]
 [connection signal="shooting_done" from="Laser" to="." method="_on_Laser_shooting_done"]

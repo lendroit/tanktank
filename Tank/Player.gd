@@ -4,10 +4,6 @@ onready var sprite = $Sprite
 onready var barrel = $Barrel
 onready var tween = $Tween
 onready var tween_bump_obstacle = $TweenBumpObstacle
-onready var front_ray = $FrontRayCast2D
-onready var back_ray = $BackRayCast2D
-onready var next_front_position_collision_shape = $NextFrontPositionCollisionShape
-onready var next_rear_position_collision_shape = $NextRearPositionCollisionShape
 onready var next_position_ray = $NextPositionRayCast2D
 onready var next_position_collision_shape := $NextPositionCollisionShape2D
 
@@ -110,36 +106,7 @@ func move(movement_direction: Vector2):
 		bump_against_obstacle(movement_direction)
 	yield(get_tree().create_timer(0.1), "timeout")
 	next_position_collision_shape.disabled = true
-	
 
-func moveFrontward():
-	next_front_position_collision_shape.disabled = false
-	yield(get_tree().create_timer(0.1), "timeout")
-	
-	var movement_direction = Direction.VECTORS[direction]
-	front_ray.force_raycast_update()
-	if !front_ray.is_colliding():
-		move_tween(movement_direction)
-	else:
-		bump_against_obstacle(movement_direction)
-
-	yield(get_tree().create_timer(0.1), "timeout")
-	next_front_position_collision_shape.disabled = true
-
-func moveBackward():
-	next_rear_position_collision_shape.disabled = false
-	yield(get_tree().create_timer(0.1), "timeout")
-
-	var opposite_direction = Direction.DIRECTIONS_ORDER[fmod(direction+2, 4)]
-	var movement_direction = Direction.VECTORS[opposite_direction]
-	back_ray.force_raycast_update()
-	if !back_ray.is_colliding():
-		move_tween(movement_direction)
-	else:
-		bump_against_obstacle(movement_direction)
-
-	yield(get_tree().create_timer(0.1), "timeout")
-	next_rear_position_collision_shape.disabled = true
 
 func move_tween(dir):
 	tween.interpolate_property(self, "position",
@@ -154,31 +121,8 @@ func shoot():
 	else:
 		reload()
 
-func rotate_left():
-	var new_direction = fmod(direction + 3, 4)
-	direction = Direction.DIRECTIONS_ORDER[new_direction]
-	self.rotate_animate(-PI/2)
-
-func rotate_right():
-	var new_direction = fmod(direction + 1, 4)
-	direction = Direction.DIRECTIONS_ORDER[new_direction]
-	self.rotate_animate(PI/2)
-
-func rotate_animate(new_rotation):
-	tween.interpolate_property(
-		self,
-		"rotation",
-		self.rotation,
-		self.rotation + new_rotation,
-		0.2,
-		Tween.TRANS_LINEAR,
-		Tween.EASE_IN_OUT
-	)
-	tween.start()
-
 func _on_Tween_tween_all_completed():
 	end_of_action()
-
 
 func _on_Laser_shooting_done():
 	end_of_action()
