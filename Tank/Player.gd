@@ -14,6 +14,7 @@ export(int, 1, 2) var player_id = 1
 export var speed = 3
 
 const BUMP_FORCE = 0.4
+const MAX_SHOTS = 3
 
 signal next_action_starting
 signal turn_ended
@@ -21,6 +22,8 @@ signal action_ended
 signal died
 
 var direction = Direction.ENUM.DOWN
+
+var shots_left_before_reload = MAX_SHOTS
 
 var tile_size = 64
 var inputs = {"right": Vector2.RIGHT,
@@ -114,7 +117,11 @@ func move_tween(dir):
 	tween.start()
 
 func shoot():
-	$Laser.shoot()
+	if shots_left_before_reload > 0:
+		$Laser.shoot()
+		shots_left_before_reload -= 1
+	else:
+		skip_turn()
 
 func rotate_left():
 	var new_direction = fmod(direction + 3, 4)
@@ -167,4 +174,9 @@ func bump_against_obstacle(movement_direction):
 	
 	# TODO make sure that animation length corresponds to other animations
 	
+	end_of_action()
+
+func skip_turn():
+	# TODO synchronized turn time
+	yield(get_tree().create_timer(0.3), "timeout")
 	end_of_action()
