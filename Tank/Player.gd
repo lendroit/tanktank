@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+onready var body = $TankBody
 onready var sprite = $TankBody/Sprite
 onready var barrel = $TankBarrel/Barrel
 onready var laser = $TankBarrel/Laser
@@ -97,6 +98,7 @@ func move_right():
 	move(movement_direction)
 
 func move(movement_direction: Vector2):
+	orientate_tank(movement_direction)
 	next_position_collision_shape.position = movement_direction * tile_size
 	next_position_collision_shape.disabled = false
 	yield(get_tree().create_timer(0.1), "timeout")
@@ -117,6 +119,7 @@ func move_tween(dir):
 	tween.start()
 
 func orientate_tank(movement_direction):
+	body.orientatebody(movement_direction)
 	pass
 
 
