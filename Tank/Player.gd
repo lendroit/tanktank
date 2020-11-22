@@ -160,6 +160,7 @@ func hit():
 func bump_against_obstacle(movement_direction):
 	tween_bump_obstacle.interpolate_property(self, "position",
 		position, position + movement_direction * tile_size * BUMP_FORCE,
+		# TODO synchronized turn time
 		BUMP_FORCE * 1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween_bump_obstacle.start()
 	
@@ -167,6 +168,7 @@ func bump_against_obstacle(movement_direction):
 	
 	tween_bump_obstacle.interpolate_property(self, "position",
 		position, position - movement_direction * tile_size * BUMP_FORCE,
+		# TODO synchronized turn time
 		BUMP_FORCE * 1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween_bump_obstacle.start()
 	

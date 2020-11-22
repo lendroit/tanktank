@@ -47,6 +47,7 @@ func shoot():
 		"width",
 		0,
 		WIDTH,
+		# TODO synchronized turn time
 		0.1,
 		Tween.TRANS_LINEAR,
 		Tween.EASE_IN_OUT
@@ -59,6 +60,7 @@ func shoot():
 		"width",
 		WIDTH,
 		0,
+		# TODO synchronized turn time
 		0.1,
 		Tween.TRANS_LINEAR,
 		Tween.EASE_IN_OUT
