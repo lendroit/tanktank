@@ -5,10 +5,13 @@ const NUMBER_OF_ACTIONS_PER_TURN = 5
 
 onready var gui: GUI = $CanvasLayer/GUI
 onready var game_result_text = $CanvasLayer/GameResultText
+onready var world = $World
 onready var players = {
 	1: $World/Player,
 	2: $World/Player2
 }
+
+var Bullet = preload("res://Bullets/Bullet.tscn")
 
 var players_ready = {
 	1: false,
@@ -32,7 +35,8 @@ func _ready():
 	players[2].connect("turn_ended", self, "_on_Player2_turn_ended")
 	players[1].connect("died", self, "_on_Player1_died")
 	players[2].connect("died", self, "_on_Player2_died")
-
+	players[1].connect("shoot_bullet", self, "_on_Player1_shot_bullet")
+	players[2].connect("shoot_bullet", self, "_on_Player2_shot_bullet")
 
 func _on_Player1_action_ended():
 	gui.remove_action(1)
@@ -51,6 +55,18 @@ func _on_Player2_died():
 
 func _on_Player1_died():
 	game_result_text.player_wins(2)
+
+func _on_Player1_shot_bullet(direction):
+	player_shoot(1, direction)
+
+func _on_Player2_shot_bullet(direction):
+	player_shoot(2, direction)
+
+func player_shoot(player_id, direction):
+	var new_bullet = Bullet.instance()
+	new_bullet.custom_init(player_id, direction)
+	new_bullet.position = players[player_id].position
+	world.add_child(new_bullet)
 
 func add_player_action(id: int, action):
 	if(players_actions[id].size() >= NUMBER_OF_ACTIONS_PER_TURN):

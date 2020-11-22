@@ -21,8 +21,7 @@ signal next_action_starting
 signal turn_ended
 signal action_ended
 signal died
-
-var direction = Direction.ENUM.DOWN
+signal shoot_bullet
 
 var shots_left_before_reload = MAX_SHOTS
 
@@ -125,8 +124,13 @@ func orientate_tank(movement_direction):
 
 func shoot():
 	if shots_left_before_reload > 0:
-		laser.shoot()
+		# If you want the laser back
+		# laser.shoot()
+		
+		# TODO: shoot in direction
+		emit_signal("shoot_bullet", Vector2.RIGHT)
 		shots_left_before_reload -= 1
+		skip_turn()
 	else:
 		reload()
 
