@@ -6,9 +6,6 @@ var direction = Vector2.DOWN
 var player_id = 1
 var world = null
 
-# TODO align this with Player...
-export var speed = 3
-
 func custom_init(world_param, player_id_param: int, direction_param: Vector2):
 	self.direction = direction_param
 	self.player_id = player_id_param
@@ -21,7 +18,7 @@ func _ready():
 func move_tween():
 	tween.interpolate_property(self, "position",
 		position, position + direction * Constants.GRID_SIZE,
-		1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+		Constants.ANIMATION_LENGTH, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.start()
 
 func _on_Bullet_body_entered(body):

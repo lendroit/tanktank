@@ -113,7 +113,7 @@ func move(movement_direction: Vector2):
 func move_tween(dir):
 	tween.interpolate_property(self, "position",
 		position, position + dir * Constants.GRID_SIZE,
-		1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+		Constants.ANIMATION_LENGTH, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.start()
 
 func orientate_tank(movement_direction):
@@ -125,7 +125,7 @@ func shoot():
 	if shots_left_before_reload > 0:
 		# If you want the laser back
 		# laser.shoot()
-		
+
 		# TODO: shoot in direction
 		emit_signal("shoot_bullet", Vector2.RIGHT)
 		shots_left_before_reload -= 1
@@ -147,22 +147,18 @@ func hit():
 func bump_against_obstacle(movement_direction):
 	tween_bump_obstacle.interpolate_property(self, "position",
 		position, position + movement_direction * Constants.GRID_SIZE * BUMP_FORCE,
-		# TODO synchronized turn time
-		BUMP_FORCE * 1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+		Constants.ANIMATION_LENGTH / 2.0, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween_bump_obstacle.start()
-	
+
 	yield(tween_bump_obstacle, "tween_completed")
-	
+
 	tween_bump_obstacle.interpolate_property(self, "position",
 		position, position - movement_direction * Constants.GRID_SIZE * BUMP_FORCE,
-		# TODO synchronized turn time
-		BUMP_FORCE * 1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+		Constants.ANIMATION_LENGTH / 2.0, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween_bump_obstacle.start()
-	
+
 	yield(tween_bump_obstacle, "tween_completed")
-	
-	# TODO make sure that animation length corresponds to other animations
-	
+
 	end_of_action()
 
 func reload():
@@ -170,6 +166,5 @@ func reload():
 	skip_turn()
 
 func skip_turn():
-	# TODO synchronized turn time
-	yield(get_tree().create_timer(0.3), "timeout")
+	yield(get_tree().create_timer(Constants.ANIMATION_LENGTH), "timeout")
 	end_of_action()

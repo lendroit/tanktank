@@ -7,3 +7,5 @@ const PLAYER_COLORS = {
 
 # Do not forget to change this setting in the tiles as well!
 const GRID_SIZE = 64
+
+const ANIMATION_LENGTH = 0.5
