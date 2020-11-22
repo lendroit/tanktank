@@ -1,11 +1,13 @@
 extends KinematicBody2D
 
-onready var sprite = $Sprite
-onready var barrel = $Barrel
+onready var sprite = $TankBody/Sprite
+onready var barrel = $TankBarrel/Barrel
+onready var laser = $TankBarrel/Laser
 onready var tween = $Tween
 onready var tween_bump_obstacle = $TweenBumpObstacle
 onready var next_position_ray = $NextPositionRayCast2D
 onready var next_position_collision_shape := $NextPositionCollisionShape2D
+
 
 export(int, 1, 2) var player_id = 1
 
@@ -114,9 +116,13 @@ func move_tween(dir):
 		1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.start()
 
+func orientate_tank(movement_direction):
+	pass
+
+
 func shoot():
 	if shots_left_before_reload > 0:
-		$Laser.shoot()
+		laser.shoot()
 		shots_left_before_reload -= 1
 	else:
 		reload()
