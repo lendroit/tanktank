@@ -4,6 +4,7 @@ onready var tween = $Tween
 
 var direction = Vector2.DOWN
 var player_id = 1
+var world = null
 
 # TODO align this with Player...
 export var speed = 3
@@ -11,10 +12,11 @@ export var speed = 3
 # TODO refactor in constants
 var tile_size = 64
 
-func custom_init(player_id_param: int, direction_param: Vector2):
+func custom_init(world, player_id_param: int, direction_param: Vector2):
 	self.direction = direction_param
 	self.player_id = player_id_param
 	self.rotation = direction_param.angle()
+	self.world = world
 
 func _ready():
 	move_tween()
@@ -37,4 +39,8 @@ func _on_Bullet_body_entered(body):
 
 
 func _on_Tween_tween_all_completed():
+	if world.is_player_turn_ongoing():
+		resume_movement()
+
+func resume_movement():
 	move_tween()

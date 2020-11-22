@@ -64,7 +64,7 @@ func _on_Player2_shot_bullet(direction):
 
 func player_shoot(player_id, direction):
 	var new_bullet = Bullet.instance()
-	new_bullet.custom_init(player_id, direction)
+	new_bullet.custom_init(self, player_id, direction)
 	new_bullet.position = players[player_id].position
 	world.add_child(new_bullet)
 
@@ -113,6 +113,11 @@ func _input(event):
 
 
 func start_turn():
+	var elements = get_tree().get_nodes_in_group("bullets")
+	for element in elements:
+		if element.has_method("resume_movement"):
+			element.resume_movement()
+	
 	for id in PLAYER_IDS:
 		players_ready[id] = false
 		gui.set_ready(id, false)
