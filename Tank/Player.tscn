@@ -53,6 +53,9 @@ disabled = true
 position = Vector2( 0, -64 )
 shape = SubResource( 3 )
 disabled = true
+
+[node name="NextPositionRayCast2D" type="RayCast2D" parent="."]
+cast_to = Vector2( 0, 0 )
 [connection signal="tween_all_completed" from="Tween" to="." method="_on_Tween_tween_all_completed"]
 [connection signal="shooting_done" from="Laser" to="." method="_on_Laser_shooting_done"]
 [connection signal="tween_completed" from="TweenBumpObstacle" to="." method="_on_TweenBumpWall_tween_completed"]

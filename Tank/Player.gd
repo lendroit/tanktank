@@ -8,6 +8,7 @@ onready var front_ray = $FrontRayCast2D
 onready var back_ray = $BackRayCast2D
 onready var next_front_position_collision_shape = $NextFrontPositionCollisionShape
 onready var next_rear_position_collision_shape = $NextRearPositionCollisionShape
+onready var next_position_ray = $NextPositionRayCast2D
 
 export(int, 1, 2) var player_id = 1
 
@@ -82,23 +83,29 @@ func exeute_next_action():
 
 func move_up():
 	var movement_direction = Vector2.UP
-	move_tween(movement_direction)
-	pass
+	move(movement_direction)
 
 func move_down():
 	var movement_direction = Vector2.DOWN
-	move_tween(movement_direction)
-	pass
+	move(movement_direction)
 
 func move_left():
 	var movement_direction = Vector2.LEFT
-	move_tween(movement_direction)
-	pass
+	move(movement_direction)
 
 func move_right():
 	var movement_direction = Vector2.RIGHT
-	move_tween(movement_direction)
+	move(movement_direction)
+
+func move(movement_direction: Vector2):
+	next_position_ray.cast_to = movement_direction * tile_size
+	next_position_ray.force_raycast_update()
+	if !next_position_ray.is_colliding():
+		move_tween(movement_direction)
+	else:
+		bump_against_obstacle(movement_direction)
 	pass
+	
 
 func moveFrontward():
 	next_front_position_collision_shape.disabled = false
