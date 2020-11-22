@@ -121,7 +121,7 @@ func shoot():
 		$Laser.shoot()
 		shots_left_before_reload -= 1
 	else:
-		skip_turn()
+		reload()
 
 func rotate_left():
 	var new_direction = fmod(direction + 3, 4)
@@ -177,6 +177,10 @@ func bump_against_obstacle(movement_direction):
 	# TODO make sure that animation length corresponds to other animations
 	
 	end_of_action()
+
+func reload():
+	shots_left_before_reload = MAX_SHOTS
+	skip_turn()
 
 func skip_turn():
 	# TODO synchronized turn time
