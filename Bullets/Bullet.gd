@@ -9,11 +9,11 @@ var world = null
 # TODO align this with Player...
 export var speed = 3
 
-func custom_init(world, player_id_param: int, direction_param: Vector2):
+func custom_init(world_param, player_id_param: int, direction_param: Vector2):
 	self.direction = direction_param
 	self.player_id = player_id_param
 	self.rotation = direction_param.angle()
-	self.world = world
+	self.world = world_param
 
 func _ready():
 	move_tween()
