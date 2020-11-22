@@ -1,10 +1,14 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://GameResultText.gd" type="Script" id=1]
 [ext_resource path="res://UI/GUI.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Roboto-Regular.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Game.gd" type="Script" id=4]
 [ext_resource path="res://Maps/World1.tscn" type="PackedScene" id=5]
+
+[sub_resource type="Environment" id=2]
+background_mode = 4
+glow_enabled = true
 
 [sub_resource type="DynamicFont" id=1]
 size = 50
@@ -16,6 +20,9 @@ font_data = ExtResource( 3 )
 script = ExtResource( 4 )
 
 [node name="World" parent="." instance=ExtResource( 5 )]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 576, 384 )

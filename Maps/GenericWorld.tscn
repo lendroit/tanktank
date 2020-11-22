@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://assets/sokoban_tilesheet.png" type="Texture" id=2]
 [ext_resource path="res://Tank/Player.tscn" type="PackedScene" id=3]
@@ -203,10 +203,6 @@ points = PoolVector2Array( 64, 0, 64, 0, 64, 64, 64, 64 )
 } ]
 2/z_index = 0
 
-[sub_resource type="Environment" id=19]
-background_mode = 4
-glow_enabled = true
-
 [node name="GenericWorld" type="Node2D"]
 position = Vector2( 64, 64 )
 
@@ -220,6 +216,3 @@ position = Vector2( 122.071, 120.95 )
 [node name="Player2" parent="." instance=ExtResource( 3 )]
 position = Vector2( 832, 448 )
 player_id = 2
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 19 )
