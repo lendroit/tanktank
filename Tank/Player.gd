@@ -66,19 +66,39 @@ func exeute_next_action():
 			shoot()
 			return
 		if action == "left":
-			rotate_left()
+			move_left()
 			return
 		if action == "right":
-			rotate_right()
+			move_right()
 			return
 		if action == "up":
-			moveFrontward()
+			move_up()
 			return
 		if action == "down":
-			moveBackward()
+			move_down()
 			return
 	else:
 		emit_signal("turn_ended")
+
+func move_up():
+	var movement_direction = Vector2.UP
+	move_tween(movement_direction)
+	pass
+
+func move_down():
+	var movement_direction = Vector2.DOWN
+	move_tween(movement_direction)
+	pass
+
+func move_left():
+	var movement_direction = Vector2.LEFT
+	move_tween(movement_direction)
+	pass
+
+func move_right():
+	var movement_direction = Vector2.RIGHT
+	move_tween(movement_direction)
+	pass
 
 func moveFrontward():
 	next_front_position_collision_shape.disabled = false
@@ -93,7 +113,6 @@ func moveFrontward():
 
 	yield(get_tree().create_timer(0.1), "timeout")
 	next_front_position_collision_shape.disabled = true
-
 
 func moveBackward():
 	next_rear_position_collision_shape.disabled = false
