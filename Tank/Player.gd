@@ -4,6 +4,7 @@ onready var body = $TankBody
 onready var barrel = $TankBarrel
 onready var sprite = $TankBody/Sprite
 onready var barrel_sprite = $TankBarrel/Barrel
+onready var barrel_particles = $TankBarrel/CannonParticles
 onready var laser = $TankBarrel/Laser
 onready var tween = $Tween
 onready var tween_bump_obstacle = $TweenBumpObstacle
@@ -164,6 +165,7 @@ func skip_turn():
 
 func rotate_barrel(direction: Vector2):
 	barrel.orientate_barrel(direction)
+	barrel_particles.emitting = true
 	# We don't wait for the barrel to precisely finish to animate
 	# we just wait with a given time instead... but this is a little fragile
 	# TODO do a regular signal exposed from the barrel body

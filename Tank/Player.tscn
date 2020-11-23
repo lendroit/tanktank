@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Tank/Player.gd" type="Script" id=1]
 [ext_resource path="res://Tank/Assets/tankGreen_outline.png" type="Texture" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://Laser/Laser.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Tank/TankBody.gd" type="Script" id=5]
 [ext_resource path="res://Tank/TankBarrel.gd" type="Script" id=6]
+[ext_resource path="res://Laser/LaserParticles.tres" type="Material" id=7]
+[ext_resource path="res://Laser/circle_05.png" type="Texture" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 28, 28 )
@@ -41,6 +43,18 @@ rotation = 1.5708
 scale = Vector2( 1, 1.15951 )
 
 [node name="RotationTween" type="Tween" parent="TankBarrel"]
+
+[node name="CannonParticles" type="Particles2D" parent="TankBarrel"]
+modulate = Color( 1.5, 1.5, 1.5, 1 )
+position = Vector2( 32.2087, 0 )
+rotation = 1.5708
+emitting = false
+amount = 20
+lifetime = 0.3
+one_shot = true
+local_coords = false
+process_material = ExtResource( 7 )
+texture = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
