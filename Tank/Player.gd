@@ -74,35 +74,19 @@ func exeute_next_action():
 			shoot(Vector2.DOWN)
 			return
 		if action == "left":
-			move_left()
+			move(Vector2.LEFT)
 			return
 		if action == "right":
-			move_right()
+			move(Vector2.RIGHT)
 			return
 		if action == "up":
-			move_up()
+			move(Vector2.UP)
 			return
 		if action == "down":
-			move_down()
+			move(Vector2.DOWN)
 			return
 	else:
 		emit_signal("turn_ended")
-
-func move_up():
-	var movement_direction = Vector2.UP
-	move(movement_direction)
-
-func move_down():
-	var movement_direction = Vector2.DOWN
-	move(movement_direction)
-
-func move_left():
-	var movement_direction = Vector2.LEFT
-	move(movement_direction)
-
-func move_right():
-	var movement_direction = Vector2.RIGHT
-	move(movement_direction)
 
 func move(movement_direction: Vector2):
 	orientate_tank(movement_direction)
