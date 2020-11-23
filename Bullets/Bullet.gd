@@ -1,6 +1,7 @@
 extends Area2D
 
 onready var tween = $Tween
+onready var trailing_smoke_particles = $TrailingSmoke
 
 var direction = Vector2.DOWN
 var player_id = 1
@@ -14,6 +15,8 @@ func custom_init(world_param, player_id_param: int, direction_param: Vector2):
 
 func _ready():
 	move_tween()
+	start_emitting_particles()
+
 
 func move_tween():
 	tween.interpolate_property(self, "position",
@@ -38,3 +41,7 @@ func _on_Tween_tween_all_completed():
 
 func resume_movement():
 	move_tween()
+
+func start_emitting_particles():
+	yield(get_tree().create_timer(0.2), "timeout")
+	trailing_smoke_particles.emitting = true
