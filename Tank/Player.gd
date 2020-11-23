@@ -1,8 +1,9 @@
 extends KinematicBody2D
 
 onready var body = $TankBody
+onready var barrel = $TankBarrel
 onready var sprite = $TankBody/Sprite
-onready var barrel = $TankBarrel/Barrel
+onready var barrel_sprite = $TankBarrel/Barrel
 onready var laser = $TankBarrel/Laser
 onready var tween = $Tween
 onready var tween_bump_obstacle = $TweenBumpObstacle
@@ -47,7 +48,7 @@ func _ready():
 	position += Vector2.ONE * Constants.GRID_SIZE/2
 
 	sprite.texture = body_sprites[player_id]
-	barrel.texture = barrel_sprites[player_id]
+	barrel_sprite.texture = barrel_sprites[player_id]
 
 func start_turn(new_action_list):
 	action_list = new_action_list
@@ -121,7 +122,7 @@ func shoot(direction: Vector2):
 
 		emit_signal("shoot_bullet", direction)
 		shots_left_before_reload -= 1
-		skip_turn()
+		rotate_barrel(direction)
 	else:
 		reload()
 
@@ -160,3 +161,11 @@ func reload():
 func skip_turn():
 	yield(get_tree().create_timer(Constants.ANIMATION_LENGTH), "timeout")
 	end_of_action()
+
+func rotate_barrel(direction: Vector2):
+	barrel.orientate_barrel(direction)
+	# We don't wait for the barrel to precisely finish to animate
+	# we just wait with a given time instead... but this is a little fragile
+	# TODO do a regular signal exposed from the barrel body
+	# once clock tick refactoring is done
+	skip_turn()

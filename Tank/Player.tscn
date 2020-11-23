@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Tank/Player.gd" type="Script" id=1]
 [ext_resource path="res://Tank/Assets/tankGreen_outline.png" type="Texture" id=2]
 [ext_resource path="res://Tank/Assets/barrelGreen_outline.png" type="Texture" id=3]
 [ext_resource path="res://Laser/Laser.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Tank/TankBody.gd" type="Script" id=5]
+[ext_resource path="res://Tank/TankBarrel.gd" type="Script" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 28, 28 )
@@ -12,6 +13,7 @@ extents = Vector2( 28, 28 )
 [sub_resource type="RectangleShape2D" id=2]
 
 [node name="Player" type="KinematicBody2D"]
+z_index = 5
 script = ExtResource( 1 )
 
 [node name="TankBody" type="Node2D" parent="."]
@@ -25,6 +27,7 @@ texture = ExtResource( 2 )
 [node name="RotationTween" type="Tween" parent="TankBody"]
 
 [node name="TankBarrel" type="Node2D" parent="."]
+script = ExtResource( 6 )
 
 [node name="Barrel" type="Sprite" parent="TankBarrel"]
 rotation = 1.5708
@@ -36,6 +39,8 @@ offset = Vector2( 0, -20 )
 position = Vector2( 32.903, 0 )
 rotation = 1.5708
 scale = Vector2( 1, 1.15951 )
+
+[node name="RotationTween" type="Tween" parent="TankBarrel"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
