@@ -45,7 +45,7 @@ var action_list
 func _ready():
 	position = position.snapped(Vector2.ONE * Constants.GRID_SIZE)
 	position += Vector2.ONE * Constants.GRID_SIZE/2
-	
+
 	sprite.texture = body_sprites[player_id]
 	barrel.texture = barrel_sprites[player_id]
 
@@ -61,8 +61,17 @@ func exeute_next_action():
 	var action = action_list.pop_front()
 	if action:
 		emit_signal("next_action_starting")
-		if action == "shoot":
-			shoot()
+		if action == "shoot_right":
+			shoot(Vector2.RIGHT)
+			return
+		if action == "shoot_left":
+			shoot(Vector2.LEFT)
+			return
+		if action == "shoot_up":
+			shoot(Vector2.UP)
+			return
+		if action == "shoot_down":
+			shoot(Vector2.DOWN)
 			return
 		if action == "left":
 			move_left()
@@ -121,13 +130,12 @@ func orientate_tank(movement_direction):
 	pass
 
 
-func shoot():
+func shoot(direction: Vector2):
 	if shots_left_before_reload > 0:
 		# If you want the laser back
 		# laser.shoot()
 
-		# TODO: shoot in direction
-		emit_signal("shoot_bullet", Vector2.RIGHT)
+		emit_signal("shoot_bullet", direction)
 		shots_left_before_reload -= 1
 		skip_turn()
 	else:

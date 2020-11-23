@@ -72,7 +72,7 @@ func add_player_action(id: int, action):
 	if(players_actions[id].size() >= NUMBER_OF_ACTIONS_PER_TURN):
 		return
 	players_actions[id].append(action)
-	
+
 	gui.add_action(id)
 
 func are_players_ready():
@@ -89,27 +89,40 @@ func _input(event):
 		return
 
 	for id in PLAYER_IDS:
-		if event.is_action_pressed("rotate_right_p%s" % id):
-			add_player_action(id, "right")
 
-		if event.is_action_pressed("rotate_left_p%s" % id):
-			add_player_action(id, "left")
+		# Shooting keys
+		if Input.is_action_pressed("shoot_p%s" % id):
+			if event.is_action_pressed("rotate_right_p%s" % id):
+				add_player_action(id, "shoot_right")
 
-		if event.is_action_pressed("move_frontward_p%s" % id):
-			add_player_action(id, "up")
+			if event.is_action_pressed("rotate_left_p%s" % id):
+				add_player_action(id, "shoot_left")
 
-		if event.is_action_pressed("move_backward_p%s" % id):
-			add_player_action(id, "down")
+			if event.is_action_pressed("move_frontward_p%s" % id):
+				add_player_action(id, "shoot_up")
 
-		if event.is_action_pressed("shoot_p%s" % id):
-			add_player_action(id, "shoot")
+			if event.is_action_pressed("move_backward_p%s" % id):
+				add_player_action(id, "shoot_down")
 
-		if event.is_action_pressed("end_turn_p%s" % id):
-			players_ready[id] = true
-			gui.set_ready(id, true)
-			if are_players_ready():
-				start_turn()
+		# Movement and other actions
+		else:
+			if event.is_action_pressed("rotate_right_p%s" % id):
+				add_player_action(id, "right")
 
+			if event.is_action_pressed("rotate_left_p%s" % id):
+				add_player_action(id, "left")
+
+			if event.is_action_pressed("move_frontward_p%s" % id):
+				add_player_action(id, "up")
+
+			if event.is_action_pressed("move_backward_p%s" % id):
+				add_player_action(id, "down")
+
+			if event.is_action_pressed("end_turn_p%s" % id):
+				players_ready[id] = true
+				gui.set_ready(id, true)
+				if are_players_ready():
+					start_turn()
 
 
 func start_turn():
@@ -117,7 +130,7 @@ func start_turn():
 	for element in elements:
 		if element.has_method("resume_movement"):
 			element.resume_movement()
-	
+
 	for id in PLAYER_IDS:
 		players_ready[id] = false
 		gui.set_ready(id, false)
