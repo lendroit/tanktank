@@ -118,12 +118,15 @@ func orientate_tank(movement_direction):
 
 func shoot(direction: Vector2):
 	if shots_left_before_reload > 0:
-		# If you want the laser back
-		# laser.shoot()
-
 		emit_signal("shoot_bullet", direction)
 		shots_left_before_reload -= 1
-		rotate_barrel(direction)
+		barrel.orientate_barrel(direction)
+		barrel_particles.emitting = true
+		# We don't wait for the barrel to precisely finish to animate
+		# we just wait with a given time instead... but this is a little fragile
+		# TODO do a regular signal exposed from the barrel body
+		# once clock tick refactoring is done
+		skip_turn()
 	else:
 		reload()
 
@@ -162,12 +165,3 @@ func reload():
 func skip_turn():
 	yield(get_tree().create_timer(Constants.ANIMATION_LENGTH), "timeout")
 	end_of_action()
-
-func rotate_barrel(direction: Vector2):
-	barrel.orientate_barrel(direction)
-	barrel_particles.emitting = true
-	# We don't wait for the barrel to precisely finish to animate
-	# we just wait with a given time instead... but this is a little fragile
-	# TODO do a regular signal exposed from the barrel body
-	# once clock tick refactoring is done
-	skip_turn()
