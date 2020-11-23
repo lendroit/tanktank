@@ -83,7 +83,7 @@ func is_player_turn_ongoing():
 
 func _input(event):
 	if event.is_action_pressed("restart"):
-		get_tree().reload_current_scene()
+		var _err = get_tree().reload_current_scene()
 
 	if(is_player_turn_ongoing()):
 		return
