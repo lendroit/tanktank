@@ -156,9 +156,15 @@ func start_turn():
 			players[id].start_turn(players_actions[id])
 
 func execute_next_action():
+	var elements = get_tree().get_nodes_in_group("bullets")
 	if players_action_ongoing[1] || players_action_ongoing[2]:
+		return
+	if !is_player_turn_ongoing():
 		return
 	for id in PLAYER_IDS:
 		if players[id]:
 			players_action_ongoing[id] = true
 			players[id].execute_next_action()
+	for element in elements:
+		if element.has_method("next_action"):
+			element.next_action()

@@ -9,6 +9,7 @@ var player_id = 1
 var world = null
 
 signal died
+signal action_ended
 
 const bullet_sprites = {
 	1: preload("res://Bullets/bulletGreenSilver_outline.png"),
@@ -47,10 +48,9 @@ func destroy_bullet():
 	queue_free()
 
 func _on_Tween_tween_all_completed():
-	if world.is_player_turn_ongoing():
-		resume_movement()
+	emit_signal("action_ended")
 
-func resume_movement():
+func next_action():
 	move_tween()
 
 func start_emitting_particles():

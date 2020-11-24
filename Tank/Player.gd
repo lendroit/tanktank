@@ -34,6 +34,10 @@ func start_turn(new_action_list):
 
 func end_of_action():
 	emit_signal("action_ended")
+	var no_action_left = action_list.size() == 0
+	if(no_action_left):
+		emit_signal("turn_ended")
+		
 
 func execute_next_action():
 	var action = action_list.pop_front()
@@ -64,7 +68,7 @@ func execute_next_action():
 			move(Vector2.DOWN)
 			return
 	else:
-		emit_signal("turn_ended")
+		skip_turn()
 
 func move(movement_direction: Vector2):
 	orientate_tank(movement_direction)
