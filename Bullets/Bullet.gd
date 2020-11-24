@@ -8,6 +8,8 @@ var direction = Vector2.DOWN
 var player_id = 1
 var world = null
 
+signal died
+
 const bullet_sprites = {
 	1: preload("res://Bullets/bulletGreenSilver_outline.png"),
 	2: preload("res://Bullets/bulletBlueSilver_outline.png"),
@@ -37,9 +39,12 @@ func _on_Bullet_body_entered(body):
 
 	if body && body.has_method("hit"):
 		body.hit()
+	
+	destroy_bullet()
 
+func destroy_bullet():
+	emit_signal("died", self.position)
 	queue_free()
-
 
 func _on_Tween_tween_all_completed():
 	if world.is_player_turn_ongoing():

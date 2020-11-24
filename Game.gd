@@ -12,6 +12,7 @@ onready var players = {
 }
 
 var Bullet = preload("res://Bullets/Bullet.tscn")
+var BulletExplosion = preload("res://Bullets/BulletExplosion.tscn")
 
 var players_ready = {
 	1: false,
@@ -67,6 +68,13 @@ func player_shoot(player_id, direction):
 	new_bullet.custom_init(self, player_id, direction)
 	new_bullet.position = players[player_id].position
 	world.add_child(new_bullet)
+	new_bullet.connect("died", self, "_on_exploded")
+
+func _on_exploded(position: Vector2):
+	var explosion = BulletExplosion.instance()
+	explosion.position = position
+	explosion.emitting = true
+	world.add_child(explosion)
 
 func add_player_action(id: int, action):
 	if(players_actions[id].size() >= NUMBER_OF_ACTIONS_PER_TURN):
