@@ -33,13 +33,13 @@ func _ready():
 
 func start_turn(new_action_list):
 	action_list = new_action_list
-	exeute_next_action()
+	execute_next_action()
 
 func end_of_action():
 	emit_signal("action_ended")
-	exeute_next_action()
+	execute_next_action()
 
-func exeute_next_action():
+func execute_next_action():
 	var action = action_list.pop_front()
 	if action:
 		emit_signal("next_action_starting")
