@@ -8,7 +8,8 @@ onready var barrel_sprite = $Barrel
 onready var particles = $CannonParticles
 
 var player_id
-var barrel_sprites = {
+
+const barrel_sprites = {
 	1: preload("res://Tank/Assets/barrelGreen_outline.png"),
 	2: preload("res://Tank/Assets/barrelBlue_outline.png"),
 }
