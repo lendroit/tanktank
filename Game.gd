@@ -153,6 +153,7 @@ func start_turn():
 		gui.set_ready(id, false)
 		if players[id]:
 			players_turn_ongoing[id] = true
+			players_action_ongoing[id] = true
 			players[id].start_turn(players_actions[id])
 
 func execute_next_action():
