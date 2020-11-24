@@ -2,10 +2,16 @@ extends Area2D
 
 onready var tween = $Tween
 onready var trailing_smoke_particles = $TrailingSmoke
+onready var sprite = $SpriteContainer/Sprite
 
 var direction = Vector2.DOWN
 var player_id = 1
 var world = null
+
+const bullet_sprites = {
+	1: preload("res://Bullets/bulletGreenSilver_outline.png"),
+	2: preload("res://Bullets/bulletBlueSilver_outline.png"),
+}
 
 func custom_init(world_param, player_id_param: int, direction_param: Vector2):
 	self.direction = direction_param
@@ -16,7 +22,7 @@ func custom_init(world_param, player_id_param: int, direction_param: Vector2):
 func _ready():
 	move_tween()
 	start_emitting_particles()
-
+	sprite.texture = bullet_sprites[player_id]
 
 func move_tween():
 	tween.interpolate_property(self, "position",
