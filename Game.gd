@@ -46,13 +46,11 @@ func _ready():
 
 func _on_Player1_action_ended():
 	gui.remove_action(1)
-	players_action_ongoing[1] = false
-	execute_next_action()
+	execute_next_action(1)
 
 func _on_Player2_action_ended():
 	gui.remove_action(2)
-	players_action_ongoing[2] = false
-	execute_next_action()
+	execute_next_action(2)
 
 func _on_Player1_turn_ended():
 	players_turn_ongoing[1] = false
@@ -156,7 +154,8 @@ func start_turn():
 			players_action_ongoing[id] = true
 			players[id].start_turn(players_actions[id])
 
-func execute_next_action():
+func execute_next_action(player_id):
+	players_action_ongoing[player_id] = false
 	var elements = get_tree().get_nodes_in_group("bullets")
 	if players_action_ongoing[1] || players_action_ongoing[2]:
 		return
