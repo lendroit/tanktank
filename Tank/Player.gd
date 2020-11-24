@@ -3,9 +3,7 @@ extends KinematicBody2D
 onready var body = $TankBody
 onready var barrel = $TankBarrel
 onready var sprite = $TankBody/Sprite
-onready var barrel_sprite = $TankBarrel/Barrel
 onready var barrel_particles = $TankBarrel/CannonParticles
-onready var laser = $TankBarrel/Laser
 onready var tween = $Tween
 onready var tween_bump_obstacle = $TweenBumpObstacle
 onready var next_position_ray = $NextPositionRayCast2D
@@ -37,11 +35,6 @@ var body_sprites = {
 	2: preload("res://Tank/Assets/tankBlue_outline.png"),
 }
 
-var barrel_sprites = {
-	1: preload("res://Tank/Assets/barrelGreen_outline.png"),
-	2: preload("res://Tank/Assets/barrelBlue_outline.png"),
-}
-
 var action_list
 
 func _ready():
@@ -49,7 +42,6 @@ func _ready():
 	position += Vector2.ONE * Constants.GRID_SIZE/2
 
 	sprite.texture = body_sprites[player_id]
-	barrel_sprite.texture = barrel_sprites[player_id]
 
 func start_turn(new_action_list):
 	action_list = new_action_list
@@ -121,7 +113,7 @@ func shoot(direction: Vector2):
 		emit_signal("shoot_bullet", direction)
 		shots_left_before_reload -= 1
 		barrel.orientate_barrel(direction)
-		barrel_particles.emitting = true
+		barrel.particles.emitting = true
 		# We don't wait for the barrel to precisely finish to animate
 		# we just wait with a given time instead... but this is a little fragile
 		# TODO do a regular signal exposed from the barrel body
@@ -131,9 +123,6 @@ func shoot(direction: Vector2):
 		reload()
 
 func _on_Tween_tween_all_completed():
-	end_of_action()
-
-func _on_Laser_shooting_done():
 	end_of_action()
 
 func hit():

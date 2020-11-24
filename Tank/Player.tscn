@@ -30,6 +30,7 @@ texture = ExtResource( 2 )
 
 [node name="TankBarrel" type="Node2D" parent="."]
 script = ExtResource( 6 )
+tank_path = NodePath("..")
 
 [node name="Barrel" type="Sprite" parent="TankBarrel"]
 rotation = 1.5708

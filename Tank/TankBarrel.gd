@@ -1,6 +1,21 @@
 extends Node2D
 
+export(NodePath) var tank_path
+
+onready var tank = get_node(tank_path)
 onready var rotation_tween = $RotationTween
+onready var barrel_sprite = $Barrel
+onready var particles = $CannonParticles
+
+var player_id
+var barrel_sprites = {
+	1: preload("res://Tank/Assets/barrelGreen_outline.png"),
+	2: preload("res://Tank/Assets/barrelBlue_outline.png"),
+}
+
+func _ready():
+	self.player_id = tank.player_id
+	barrel_sprite.texture = barrel_sprites[player_id]
 
 func orientate_barrel(movement_direction: Vector2):
 	# Duplication of TankBody script
