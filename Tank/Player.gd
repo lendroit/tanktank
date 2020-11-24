@@ -92,7 +92,7 @@ func move_tween(dir):
 	tween.start()
 
 func orientate_tank(movement_direction):
-	body.orientatebody(movement_direction)
+	body.orientate(movement_direction)
 	pass
 
 
@@ -100,7 +100,7 @@ func shoot(direction: Vector2):
 	if shots_left_before_reload > 0:
 		emit_signal("shoot_bullet", direction)
 		shots_left_before_reload -= 1
-		barrel.orientate_barrel(direction)
+		barrel.orientate(direction)
 		barrel.particles.emitting = true
 		# We don't wait for the barrel to precisely finish to animate
 		# we just wait with a given time instead... but this is a little fragile

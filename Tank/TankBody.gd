@@ -17,7 +17,7 @@ func _ready():
 	self.player_id = tank.player_id
 	sprite.texture = body_sprites[player_id]
 
-func orientatebody(movement_direction: Vector2):
+func orientate(movement_direction: Vector2):
 	var angle = movement_direction.angle()
 	var self_angle = fmod(rotation, 2 * PI)
 	var angle_to_add = fmod(angle - self_angle - PI, 2 * PI) + PI

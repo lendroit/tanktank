@@ -18,7 +18,7 @@ func _ready():
 	self.player_id = tank.player_id
 	barrel_sprite.texture = barrel_sprites[player_id]
 
-func orientate_barrel(movement_direction: Vector2):
+func orientate(movement_direction: Vector2):
 	# Duplication of TankBody script
 	var angle = movement_direction.angle()
 	var self_angle = fmod(rotation, 2 * PI)
