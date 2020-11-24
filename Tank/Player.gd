@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+export(int, 1, 2) var player_id = 1
+
 onready var body = $TankBody
 onready var barrel = $TankBarrel
 onready var sprite = $TankBody/Sprite
@@ -8,11 +10,6 @@ onready var tween = $Tween
 onready var tween_bump_obstacle = $TweenBumpObstacle
 onready var next_position_ray = $NextPositionRayCast2D
 onready var next_position_collision_shape := $NextPositionCollisionShape2D
-
-
-export(int, 1, 2) var player_id = 1
-
-export var speed = 3
 
 const BUMP_FORCE = 0.4
 const MAX_SHOTS = 3
