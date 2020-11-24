@@ -34,7 +34,6 @@ func start_turn(new_action_list):
 
 func end_of_action():
 	emit_signal("action_ended")
-	execute_next_action()
 
 func execute_next_action():
 	var action = action_list.pop_front()

@@ -24,6 +24,11 @@ var players_turn_ongoing = {
 	2: false
 }
 
+var players_action_ongoing = {
+	1: false,
+	2: false
+}
+
 var players_actions = {
 	1: [],
 	2: []
@@ -41,9 +46,13 @@ func _ready():
 
 func _on_Player1_action_ended():
 	gui.remove_action(1)
+	players_action_ongoing[1] = false
+	execute_next_action()
 
 func _on_Player2_action_ended():
 	gui.remove_action(2)
+	players_action_ongoing[2] = false
+	execute_next_action()
 
 func _on_Player1_turn_ended():
 	players_turn_ongoing[1] = false
@@ -146,3 +155,10 @@ func start_turn():
 			players_turn_ongoing[id] = true
 			players[id].start_turn(players_actions[id])
 
+func execute_next_action():
+	if players_action_ongoing[1] || players_action_ongoing[2]:
+		return
+	for id in PLAYER_IDS:
+		if players[id]:
+			players_action_ongoing[id] = true
+			players[id].execute_next_action()
