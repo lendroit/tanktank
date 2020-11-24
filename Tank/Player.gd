@@ -25,23 +25,11 @@ signal shoot_bullet
 
 var shots_left_before_reload = MAX_SHOTS
 
-var inputs = {"right": Vector2.RIGHT,
-			"left": Vector2.LEFT,
-			"up": Vector2.UP,
-			"down": Vector2.DOWN}
-
-var body_sprites = {
-	1: preload("res://Tank/Assets/tankGreen_outline.png"),
-	2: preload("res://Tank/Assets/tankBlue_outline.png"),
-}
-
 var action_list
 
 func _ready():
 	position = position.snapped(Vector2.ONE * Constants.GRID_SIZE)
 	position += Vector2.ONE * Constants.GRID_SIZE/2
-
-	sprite.texture = body_sprites[player_id]
 
 func start_turn(new_action_list):
 	action_list = new_action_list
