@@ -10,6 +10,7 @@ onready var tween = $Tween
 onready var tween_bump_obstacle = $TweenBumpObstacle
 onready var next_position_ray = $NextPositionRayCast2D
 onready var next_position_collision_shape := $NextPositionCollisionShape2D
+onready var reload_animator = $ReloadAnimation/AnimationPlayer
 
 const BUMP_FORCE = 0.4
 const MAX_SHOTS = 3
@@ -134,6 +135,7 @@ func bump_against_obstacle(movement_direction):
 
 func reload():
 	shots_left_before_reload = MAX_SHOTS
+	reload_animator.play("Reload")
 	skip_turn()
 
 func skip_turn():

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Tank/Player.gd" type="Script" id=1]
 [ext_resource path="res://Tank/Assets/tankGreen_outline.png" type="Texture" id=2]
@@ -8,11 +8,52 @@
 [ext_resource path="res://Tank/TankBarrel.gd" type="Script" id=6]
 [ext_resource path="res://Laser/LaserParticles.tres" type="Material" id=7]
 [ext_resource path="res://Laser/circle_05.png" type="Texture" id=8]
+[ext_resource path="res://Bullets/bulletBeigeSilver_outline.png" type="Texture" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 28, 28 )
 
 [sub_resource type="RectangleShape2D" id=2]
+
+[sub_resource type="Animation" id=3]
+resource_name = "Reload"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("ReloadBullet1:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1e-05, 1e-05 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 1e-05, 1e-05 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ReloadBullet2:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 5e-06, 5e-06 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ReloadBullet3:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 1e-05, 1e-05 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0, 0 ) ]
+}
 
 [node name="Player" type="KinematicBody2D"]
 z_index = 5
@@ -72,6 +113,29 @@ cast_to = Vector2( 0, 0 )
 position = Vector2( 0, 64 )
 shape = SubResource( 2 )
 disabled = true
+
+[node name="ReloadAnimation" type="Node2D" parent="."]
+position = Vector2( -0.157196, -45.7465 )
+
+[node name="ReloadBullet1" type="Sprite" parent="ReloadAnimation"]
+position = Vector2( -18.4106, -4.66279 )
+rotation = -0.400621
+scale = Vector2( 1e-05, 1e-05 )
+texture = ExtResource( 9 )
+
+[node name="ReloadBullet2" type="Sprite" parent="ReloadAnimation"]
+position = Vector2( 0.139507, -9.22173 )
+scale = Vector2( 1e-05, 1e-05 )
+texture = ExtResource( 9 )
+
+[node name="ReloadBullet3" type="Sprite" parent="ReloadAnimation"]
+position = Vector2( 18.5324, -4.5056 )
+rotation = 0.391566
+scale = Vector2( 1e-05, 1e-05 )
+texture = ExtResource( 9 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ReloadAnimation"]
+anims/Reload = SubResource( 3 )
 [connection signal="shooting_done" from="TankBarrel/Laser" to="." method="_on_Laser_shooting_done"]
 [connection signal="tween_all_completed" from="Tween" to="." method="_on_Tween_tween_all_completed"]
 [connection signal="tween_completed" from="TweenBumpObstacle" to="." method="_on_TweenBumpWall_tween_completed"]
