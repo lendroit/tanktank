@@ -70,7 +70,7 @@ func execute_next_action():
 			move(Vector2.DOWN)
 			return
 	else:
-		skip_turn()
+		wait_end_of_turn()
 
 func move(movement_direction: Vector2):
 	orientate_tank(movement_direction)
@@ -108,7 +108,7 @@ func shoot(direction: Vector2):
 		# we just wait with a given time instead... but this is a little fragile
 		# TODO do a regular signal exposed from the barrel body
 		# once clock tick refactoring is done
-		skip_turn()
+		wait_end_of_turn()
 	else:
 		reload()
 
@@ -140,8 +140,8 @@ func bump_against_obstacle(movement_direction):
 func reload():
 	shots_left_before_reload = MAX_SHOTS
 	reload_animator.play("Reload")
-	skip_turn()
+	wait_end_of_turn()
 
-func skip_turn():
+func wait_end_of_turn():
 	yield(get_tree().create_timer(Constants.ANIMATION_LENGTH), "timeout")
 	end_of_action()
