@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Tank/Player.gd" type="Script" id=1]
 [ext_resource path="res://Tank/Assets/tankGreen_outline.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Laser/LaserParticles.tres" type="Material" id=7]
 [ext_resource path="res://Laser/circle_05.png" type="Texture" id=8]
 [ext_resource path="res://Bullets/bulletBeigeSilver_outline.png" type="Texture" id=9]
+[ext_resource path="res://Tank/Assets/hourglass.png" type="Texture" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 28, 28 )
@@ -53,6 +54,34 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 1e-05, 1e-05 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "Wait"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Hourglass:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.001, 0.1, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1e-05, 1e-05 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1e-05, 1e-05 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hourglass:rotation_degrees")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 15.0, -15.0, 15.0, 0.0 ]
 }
 
 [node name="Player" type="KinematicBody2D"]
@@ -136,6 +165,17 @@ texture = ExtResource( 9 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ReloadAnimation"]
 anims/Reload = SubResource( 3 )
+
+[node name="WaitAnimation" type="Node2D" parent="."]
+position = Vector2( 0.346863, -57.1294 )
+scale = Vector2( 0.0329456, 0.0329456 )
+
+[node name="Hourglass" type="Sprite" parent="WaitAnimation"]
+scale = Vector2( 1e-05, 1e-05 )
+texture = ExtResource( 10 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WaitAnimation"]
+anims/Wait = SubResource( 4 )
 [connection signal="shooting_done" from="TankBarrel/Laser" to="." method="_on_Laser_shooting_done"]
 [connection signal="tween_all_completed" from="Tween" to="." method="_on_Tween_tween_all_completed"]
 [connection signal="tween_completed" from="TweenBumpObstacle" to="." method="_on_TweenBumpWall_tween_completed"]

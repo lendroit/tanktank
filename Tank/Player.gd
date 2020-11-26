@@ -11,6 +11,7 @@ onready var tween_bump_obstacle = $TweenBumpObstacle
 onready var next_position_ray = $NextPositionRayCast2D
 onready var next_position_collision_shape := $NextPositionCollisionShape2D
 onready var reload_animator = $ReloadAnimation/AnimationPlayer
+onready var wait_animator = $WaitAnimation/AnimationPlayer
 
 const BUMP_FORCE = 0.4
 const MAX_SHOTS = 3
