@@ -39,7 +39,6 @@ func end_of_action():
 	var no_action_left = action_list.size() == 0
 	if(no_action_left):
 		emit_signal("turn_ended")
-		
 
 func execute_next_action():
 	var action = action_list.pop_front()
@@ -70,7 +69,7 @@ func execute_next_action():
 			move(Vector2.DOWN)
 			return
 	else:
-		wait_end_of_turn()
+		skip_turn()
 
 func move(movement_direction: Vector2):
 	orientate_tank(movement_direction)
@@ -145,3 +144,7 @@ func reload():
 func wait_end_of_turn():
 	yield(get_tree().create_timer(Constants.ANIMATION_LENGTH), "timeout")
 	end_of_action()
+
+func skip_turn():
+	wait_animator.play("Wait")
+	wait_end_of_turn()
