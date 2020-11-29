@@ -21,6 +21,7 @@ signal turn_ended
 signal action_ended
 signal died
 signal shoot_bullet
+signal reload
 
 var shots_left_before_reload = MAX_SHOTS
 
@@ -137,6 +138,7 @@ func bump_against_obstacle(movement_direction):
 	end_of_action()
 
 func reload():
+	emit_signal("reload")
 	shots_left_before_reload = MAX_SHOTS
 	reload_animator.play("Reload")
 	wait_end_of_turn()

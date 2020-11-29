@@ -18,3 +18,9 @@ func remove_action(player_id: int):
 
 func set_ready(player_id: int, state: bool):
 	player_action_indicator_container[player_id].set_ready(state)
+
+func remove_bullet(player_id: int):
+	player_action_indicator_container[player_id].remove_bullet()
+
+func show_all_bullets(player_id: int):
+	player_action_indicator_container[player_id].show_all_bullets()

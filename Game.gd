@@ -43,6 +43,8 @@ func _ready():
 	players[2].connect("died", self, "_on_Player2_died")
 	players[1].connect("shoot_bullet", self, "_on_Player1_shot_bullet")
 	players[2].connect("shoot_bullet", self, "_on_Player2_shot_bullet")
+	players[1].connect("reload", self, "_on_Player1_reloaded")
+	players[2].connect("reload", self, "_on_Player2_reloaded")
 
 func _on_Player1_action_ended():
 	gui.remove_action(1)
@@ -66,9 +68,17 @@ func _on_Player1_died():
 
 func _on_Player1_shot_bullet(direction):
 	player_shoot(1, direction)
+	gui.remove_bullet(1)
 
 func _on_Player2_shot_bullet(direction):
 	player_shoot(2, direction)
+	gui.remove_bullet(2)
+
+func _on_Player1_reloaded():
+	gui.show_all_bullets(1)
+
+func _on_Player2_reloaded():
+	gui.show_all_bullets(2)
 
 func player_shoot(player_id, direction):
 	var new_bullet = Bullet.instance()
