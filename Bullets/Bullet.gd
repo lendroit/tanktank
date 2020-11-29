@@ -54,5 +54,7 @@ func next_action():
 	move_tween()
 
 func start_emitting_particles():
-	yield(get_tree().create_timer(0.2), "timeout")
+	$SmokeParticlesTimer.start()
+
+func _on_ParticlesTimer_timeout():
 	trailing_smoke_particles.emitting = true

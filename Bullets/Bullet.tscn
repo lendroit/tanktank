@@ -35,5 +35,9 @@ lifetime = 0.2
 local_coords = false
 process_material = ExtResource( 3 )
 texture = ExtResource( 4 )
+
+[node name="SmokeParticlesTimer" type="Timer" parent="."]
+wait_time = 0.2
 [connection signal="body_entered" from="." to="." method="_on_Bullet_body_entered"]
 [connection signal="tween_all_completed" from="Tween" to="." method="_on_Tween_tween_all_completed"]
+[connection signal="timeout" from="SmokeParticlesTimer" to="." method="_on_ParticlesTimer_timeout"]
