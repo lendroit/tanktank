@@ -106,6 +106,9 @@ func are_players_ready():
 func is_player_turn_ongoing():
 	return players_turn_ongoing[1] || players_turn_ongoing[2]
 
+func is_player_action_ongoing():
+	return players_action_ongoing[1] || players_action_ongoing[2]
+
 func _input(event):
 	if event.is_action_pressed("restart"):
 		var _err = get_tree().reload_current_scene()
@@ -167,7 +170,7 @@ func start_turn():
 func execute_next_action(player_id):
 	players_action_ongoing[player_id] = false
 	var elements = get_tree().get_nodes_in_group("bullets")
-	if players_action_ongoing[1] || players_action_ongoing[2]:
+	if is_player_action_ongoing():
 		return
 	if !is_player_turn_ongoing():
 		return
