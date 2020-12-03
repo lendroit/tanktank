@@ -156,8 +156,8 @@ func _input(event):
 func start_turn():
 	var elements = get_tree().get_nodes_in_group("bullets")
 	for element in elements:
-		if element.has_method("resume_movement"):
-			element.resume_movement()
+		if element.has_method("next_action"):
+			element.next_action()
 
 	for id in PLAYER_IDS:
 		players_ready[id] = false
