@@ -73,6 +73,7 @@ margin_left = 160.0
 margin_right = 196.0
 
 [node name="Ready" type="Label" parent="."]
+visible = false
 margin_top = 82.0
 margin_right = 274.0
 margin_bottom = 118.0
