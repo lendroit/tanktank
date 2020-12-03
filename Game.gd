@@ -48,11 +48,11 @@ func _ready():
 
 func _on_Player1_action_ended():
 	gui.remove_action(1)
-	execute_next_action(1)
+	end_action(1)
 
 func _on_Player2_action_ended():
 	gui.remove_action(2)
-	execute_next_action(2)
+	end_action(2)
 
 func _on_Player1_turn_ended():
 	players_turn_ongoing[1] = false
@@ -154,10 +154,7 @@ func _input(event):
 
 
 func start_turn():
-	var elements = get_tree().get_nodes_in_group("bullets")
-	for element in elements:
-		if element.has_method("next_action"):
-			element.next_action()
+	resume_bullet_movement()
 
 	for id in PLAYER_IDS:
 		players_ready[id] = false
@@ -167,17 +164,26 @@ func start_turn():
 			players_action_ongoing[id] = true
 			players[id].start_turn(players_actions[id])
 
-func execute_next_action(player_id):
+func end_action(player_id):
 	players_action_ongoing[player_id] = false
-	var elements = get_tree().get_nodes_in_group("bullets")
+	try_executing_next_action()
+
+func try_executing_next_action():
 	if is_player_action_ongoing():
 		return
 	if !is_player_turn_ongoing():
 		return
+
+	resume_bullet_movement()
+
 	for id in PLAYER_IDS:
 		if players[id]:
 			players_action_ongoing[id] = true
 			players[id].execute_next_action()
+
+
+func resume_bullet_movement():
+	var elements = get_tree().get_nodes_in_group("bullets")
 	for element in elements:
 		if element.has_method("next_action"):
 			element.next_action()

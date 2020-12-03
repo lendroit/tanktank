@@ -36,10 +36,12 @@ func start_turn(new_action_list):
 	execute_next_action()
 
 func end_of_action():
-	emit_signal("action_ended")
 	var no_action_left = action_list.size() == 0
 	if(no_action_left):
 		emit_signal("turn_ended")
+
+	emit_signal("action_ended")
+
 
 func execute_next_action():
 	var action = action_list.pop_front()
